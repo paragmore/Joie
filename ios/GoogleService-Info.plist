@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>176344180297-3kopi4ebr7gl18j3qo6dd9hi2p5tu7o4.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.176344180297-3kopi4ebr7gl18j3qo6dd9hi2p5tu7o4</string>
+	<key>API_KEY</key>
+	<string>AIzaSyCR87iNabfE1IlNj9Lfn4p4CuiHCf2ELXk</string>
+	<key>GCM_SENDER_ID</key>
+	<string>176344180297</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>org.reactjs.native.example.Joie</string>
+	<key>PROJECT_ID</key>
+	<string>joie-c2494</string>
+	<key>STORAGE_BUCKET</key>
+	<string>joie-c2494.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:176344180297:ios:3ced02aff0882cd1048198</string>
+</dict>
+</plist>
