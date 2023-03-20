@@ -5,6 +5,7 @@ import SearchIcon from '../../assets/search_icon.svg';
 import Video from 'react-native-video';
 import {useHeaderHeight} from '@react-navigation/elements';
 import {ScreenContainer} from '../Components/ScreenContainer';
+import { AlbumCardsList } from '../Components/AlbumCardsList';
 
 const {height, width} = Dimensions.get('window');
 export const HomeScreen = () => {
@@ -18,6 +19,7 @@ export const HomeScreen = () => {
         // }
       >
         <Text>Welcome, Jessica</Text>
+        <AlbumCardsList />
       </ScreenContainer>
     </>
   );
