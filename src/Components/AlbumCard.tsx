@@ -12,7 +12,10 @@ export const AlbumCard: React.FC<{
   const {imageUrl, name} = props;
   const {navigate} = useNavigation();
   const navigateToAlbumScreen = () => {
-    navigate('Album')
+    navigate('Album', {
+      albumId: 86,
+      albumName: 'Calm',
+    });
   };
   return (
     <View style={{paddingLeft: 20}}>

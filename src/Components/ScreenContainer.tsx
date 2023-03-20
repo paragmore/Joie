@@ -21,7 +21,7 @@ export const ScreenContainer: React.FC<
   }, [backgroundHeight]);
 
   return (
-    <View>
+    <ScrollView style={{backgroundColor:'black'}}>
       <ScrollView style={{marginTop: 100, zIndex: 1}}>{props.children}</ScrollView>
       {backgroundVideoUrl && (
         <BackgroundVideo
@@ -36,9 +36,6 @@ export const ScreenContainer: React.FC<
           ignoreSilentSwitch={'obey'}
         />
       )}
-      {props.children}
-
-      <Text>{backgroundImageUrl}</Text>
       {backgroundImageUrl && (
         <BackgroundImage
           width={backgroundWidth}
@@ -46,6 +43,6 @@ export const ScreenContainer: React.FC<
           source={backgroundImageUrl}
         />
       )}
-    </View>
+    </ScrollView>
   );
 };
