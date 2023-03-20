@@ -1,9 +1,10 @@
 import React from 'react';
 import {View} from 'react-native';
 import {AlbumCard} from './AlbumCard';
-import {AlbumCardListContainer} from './AlbumCardList.styles';
+import {AlbumCardListContainer, AlbumListHeader} from './AlbumCardList.styles';
 
-export const AlbumCardsList = () => {
+export const AlbumCardsList: React.FC<{header?: string}> = props => {
+  const {header} = props;
   const DATA = [
     {
       name: 'Calm',
@@ -22,6 +23,7 @@ export const AlbumCardsList = () => {
   ];
   return (
     <View>
+      <AlbumListHeader>{header}</AlbumListHeader>
       <AlbumCardListContainer
         data={DATA}
         horizontal={true}

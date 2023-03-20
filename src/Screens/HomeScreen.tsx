@@ -1,7 +1,8 @@
 import React from 'react';
 import {ScreenContainer} from '../Components/ScreenContainer';
 import {AlbumCardsList} from '../Components/AlbumCardsList';
-import {Text} from 'react-native';
+import {ScrollView, Text} from 'react-native';
+import { WelcomeText } from '../Components/HomeScreen/HomeScreen.styles';
 
 export const HomeScreen = () => {
   return (
@@ -12,8 +13,12 @@ export const HomeScreen = () => {
         //   'https://firebasestorage.googleapis.com/v0/b/joie-c2494.appspot.com/o/pexels-tima-miroshnichenko-5992586.mp4?alt=media&token=1132e745-f34c-4276-bee0-19b149821e05'
         // }
       >
-        <Text>Welcome, Jessica</Text>
-        <AlbumCardsList />
+        <ScrollView>
+          <WelcomeText>Welcome, {'\n'} Jessica</WelcomeText>
+          <AlbumCardsList />
+          <AlbumCardsList header="Recommended collections" />
+          <AlbumCardsList header="Mental fitness" />
+        </ScrollView>
       </ScreenContainer>
     </>
   );
