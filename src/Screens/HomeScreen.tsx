@@ -1,15 +1,9 @@
 import React from 'react';
-import {Dimensions, Image, Text} from 'react-native';
-import {Header} from '../Components/Header';
-import SearchIcon from '../../assets/search_icon.svg';
-import Video from 'react-native-video';
-import {useHeaderHeight} from '@react-navigation/elements';
 import {ScreenContainer} from '../Components/ScreenContainer';
-import { AlbumCardsList } from '../Components/AlbumCardsList';
+import {AlbumCardsList} from '../Components/AlbumCardsList';
+import {Text} from 'react-native';
 
-const {height, width} = Dimensions.get('window');
 export const HomeScreen = () => {
-  const headerHeight = useHeaderHeight();
   return (
     <>
       <ScreenContainer

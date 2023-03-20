@@ -2,9 +2,9 @@ import {Image} from 'react-native';
 import Video from 'react-native-video';
 import styled from 'styled-components/native';
 
-export const BackgroundImage = styled<{height: number}>(Image)`
+export const BackgroundImage = styled<{height: string; width: string}>(Image)`
   height: ${props => props.height};
-  width: width;
+  width: ${props => props.width};
   position: absolute;
   top: 0;
   left: 0;

@@ -10,6 +10,7 @@ import {Header} from './src/Components/Header';
 import SearchIcon from './assets/search_icon.svg';
 import HamburgerIcon from './assets/hamburger_icon.svg';
 import {HeaderIconContainer} from './src/Components/Header.styles';
+import {AlbumScreen} from './src/Screens/AlbumScreen';
 
 const Stack = createNativeStackNavigator();
 
@@ -41,6 +42,7 @@ function App(): JSX.Element {
             name="Home"
             component={HomeScreen}
           />
+          <Stack.Screen name="Album" component={AlbumScreen} />
         </Stack.Navigator>
       </NavigationContainer>
     </ThemeProvider>

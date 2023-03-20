@@ -6,3 +6,13 @@ export const AlbumCardImage = styled(Image)`
   width: 250px;
   height: 180px;
 `;
+
+export const AlbumCardName = styled.Text`
+  /* font-family: ''; */
+  font-style: normal;
+  font-weight: 300;
+  font-size: 14px;
+  line-height: 40px;
+  /* letter-spacing: 0.03em; */
+  color: #f0f0f0;
+`;

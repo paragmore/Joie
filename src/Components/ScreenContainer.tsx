@@ -14,20 +14,21 @@ export const ScreenContainer: React.FC<
   const {backgroundImageUrl, backgroundVideoUrl} = props;
   const {height, width} = Dimensions.get('window');
   const headerHeight = useHeaderHeight();
-
+  const backgroundHeight = headerHeight + height + 35 + 'px';
+  const backgroundWidth = width + 'px';
   useEffect(() => {
-    console.log(backgroundImageUrl);
-  }, [backgroundImageUrl]);
+    console.log(backgroundHeight);
+  }, [backgroundHeight]);
 
   return (
     <View>
-      <View style={{marginTop: 100, zIndex:1}}>{props.children}</View>
+      <View style={{marginTop: 100, zIndex: 1}}>{props.children}</View>
       {backgroundVideoUrl && (
         <BackgroundVideo
           source={{
             uri: backgroundVideoUrl,
           }}
-          height={headerHeight + height + 35}
+          height={backgroundHeight}
           muted={true}
           repeat={true}
           resizeMode={'cover'}
@@ -40,7 +41,8 @@ export const ScreenContainer: React.FC<
       <Text>{backgroundImageUrl}</Text>
       {backgroundImageUrl && (
         <BackgroundImage
-          height={headerHeight + height + 35}
+          width={backgroundWidth}
+          height={backgroundHeight}
           source={backgroundImageUrl}
         />
       )}

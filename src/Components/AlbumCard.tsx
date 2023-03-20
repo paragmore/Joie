@@ -1,6 +1,7 @@
+import {useNavigation} from '@react-navigation/native';
 import React from 'react';
-import {Image, View} from 'react-native';
-import { AlbumCardImage } from './AlbumCard.styles';
+import {Image, Pressable, View} from 'react-native';
+import {AlbumCardImage, AlbumCardName} from './AlbumCard.styles';
 
 export const AlbumCard: React.FC<{
   imageUrl: string;
@@ -8,10 +9,17 @@ export const AlbumCard: React.FC<{
   time: string;
   isBookMarked: boolean;
 }> = props => {
-  const {imageUrl} = props;
+  const {imageUrl, name} = props;
+  const {navigate} = useNavigation();
+  const navigateToAlbumScreen = () => {
+    navigate('Album')
+  };
   return (
     <View style={{paddingLeft: 20}}>
-      <AlbumCardImage source={{uri: imageUrl}} />
+      <Pressable onPress={navigateToAlbumScreen}>
+        <AlbumCardImage source={{uri: imageUrl}} />
+      </Pressable>
+      <AlbumCardName>{name}</AlbumCardName>
     </View>
   );
 };

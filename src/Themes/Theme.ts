@@ -1,4 +1,4 @@
-import { Platform } from 'react-native';
+import {Platform} from 'react-native';
 import 'styled-components';
 
 export const DEFAULT_THEME = {
@@ -382,7 +382,7 @@ export const DEFAULT_THEME = {
     },
   },
   buttons: {
-    defaultButton: { bgColor: '#731DCF', textColor: '#fff' },
+    defaultButton: {bgColor: '#731DCF', textColor: '#fff'},
   },
   zIndexes: {
     spinner: 1,
@@ -392,8 +392,6 @@ export const DEFAULT_THEME = {
     sticky: 9,
   },
 };
-
-import 'styled-components';
 
 type MyType = typeof DEFAULT_THEME;
 

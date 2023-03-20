@@ -1,5 +1,5 @@
 import React from 'react';
-import { View } from 'react-native';
+import {View} from 'react-native';
 import {AlbumCard} from './AlbumCard';
 import {AlbumCardListContainer} from './AlbumCardList.styles';
 
@@ -32,6 +32,7 @@ export const AlbumCardsList = () => {
             time="3:10"
             isBookMarked={false}
             imageUrl={item.imageUrl}
+            key={item.id}
           />
         )}
         keyExtractor={item => item.id}
