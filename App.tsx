@@ -42,7 +42,19 @@ function App(): JSX.Element {
             name="Home"
             component={HomeScreen}
           />
-          <Stack.Screen name="Album" component={AlbumScreen} />
+          <Stack.Screen
+            options={{
+              headerTitle: () => <Header />,
+              headerRight: () => (
+                <HeaderIconContainer>
+                  <SearchIcon width={24} height={24} fill="blue" />
+                </HeaderIconContainer>
+              ),
+              headerBackTitleVisible: false,
+            }}
+            name="Album"
+            component={AlbumScreen}
+          />
         </Stack.Navigator>
       </NavigationContainer>
     </ThemeProvider>

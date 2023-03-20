@@ -2,7 +2,8 @@ import React from 'react';
 import {ScreenContainer} from '../Components/ScreenContainer';
 import {AlbumCardsList} from '../Components/AlbumCardsList';
 import {ScrollView, Text} from 'react-native';
-import { WelcomeText } from '../Components/HomeScreen/HomeScreen.styles';
+import {WelcomeText} from '../Components/HomeScreen/HomeScreen.styles';
+import {MediaPlayerOverlay} from '../Components/MediaPlayerOverlay';
 
 export const HomeScreen = () => {
   return (

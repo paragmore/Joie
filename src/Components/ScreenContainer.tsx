@@ -4,6 +4,7 @@ import {Dimensions, Image, ScrollView, View} from 'react-native';
 import Video from 'react-native-video';
 import {BackgroundImage, BackgroundVideo} from './ScreenContainer.styles';
 import {Text} from 'react-native-svg';
+import { MediaPlayerOverlay } from './MediaPlayerOverlay';
 
 export const ScreenContainer: React.FC<
   PropsWithChildren<{
@@ -21,28 +22,33 @@ export const ScreenContainer: React.FC<
   }, [backgroundHeight]);
 
   return (
-    <ScrollView style={{backgroundColor:'black'}}>
-      <ScrollView style={{marginTop: 100, zIndex: 1}}>{props.children}</ScrollView>
-      {backgroundVideoUrl && (
-        <BackgroundVideo
-          source={{
-            uri: backgroundVideoUrl,
-          }}
-          height={backgroundHeight}
-          muted={true}
-          repeat={true}
-          resizeMode={'cover'}
-          rate={1.0}
-          ignoreSilentSwitch={'obey'}
-        />
-      )}
-      {backgroundImageUrl && (
-        <BackgroundImage
-          width={backgroundWidth}
-          height={backgroundHeight}
-          source={backgroundImageUrl}
-        />
-      )}
-    </ScrollView>
+    <>
+      <ScrollView style={{backgroundColor: 'black'}}>
+        <ScrollView style={{marginTop: 100, zIndex: 1}}>
+          {props.children}
+        </ScrollView>
+        {backgroundVideoUrl && (
+          <BackgroundVideo
+            source={{
+              uri: backgroundVideoUrl,
+            }}
+            height={backgroundHeight}
+            muted={true}
+            repeat={true}
+            resizeMode={'cover'}
+            rate={1.0}
+            ignoreSilentSwitch={'obey'}
+          />
+        )}
+        {backgroundImageUrl && (
+          <BackgroundImage
+            width={backgroundWidth}
+            height={backgroundHeight}
+            source={backgroundImageUrl}
+          />
+        )}
+      </ScrollView>
+      <MediaPlayerOverlay />
+    </>
   );
 };
