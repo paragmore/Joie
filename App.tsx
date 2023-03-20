@@ -19,6 +19,8 @@ import {
 
 import {Colors} from 'react-native/Libraries/NewAppScreen';
 import {GoogleAuthentication} from './src/Authentication/GoogleAuthentication';
+import {ThemeProvider} from 'styled-components/native';
+import {NavigationContainer} from '@react-navigation/native';
 
 type SectionProps = PropsWithChildren<{
   title: string;
@@ -58,13 +60,17 @@ function App(): JSX.Element {
   };
 
   return (
-    <SafeAreaView style={backgroundStyle}>
-      <StatusBar
-        barStyle={isDarkMode ? 'light-content' : 'dark-content'}
-        backgroundColor={backgroundStyle.backgroundColor}
-      />
-      <GoogleAuthentication />
-    </SafeAreaView>
+    <ThemeProvider>
+      <NavigationContainer>
+        <SafeAreaView style={backgroundStyle}>
+          <StatusBar
+            barStyle={isDarkMode ? 'light-content' : 'dark-content'}
+            backgroundColor={backgroundStyle.backgroundColor}
+          />
+          <GoogleAuthentication />
+        </SafeAreaView>
+      </NavigationContainer>
+    </ThemeProvider>
   );
 }
 
