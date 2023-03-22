@@ -2,6 +2,7 @@ import React from 'react';
 import {AlbumNameText} from '../Components/AlbumScreen/AlbumScreen.styles';
 import {MediaItemsList} from '../Components/AlbumScreen/MediaItemsList';
 import {MediaPlayerOverlay} from '../Components/MediaPlayerOverlay';
+import PlayerWidget from '../Components/PlayerWidget';
 import {ScreenContainer} from '../Components/ScreenContainer';
 
 export const AlbumScreen = ({route, navigation}) => {

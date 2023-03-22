@@ -17,7 +17,7 @@ export const ScreenContainer: React.FC<
     props;
   const {height, width} = Dimensions.get('window');
 
-  const [isMediaOverlayVisible, setIsMediaOverlayVisible] = useState(false)
+  const [isMediaOverlayVisible, setIsMediaOverlayVisible] = useState(true)
   const headerHeight = useHeaderHeight();
   const backgroundHeight = headerHeight + height + 35 + 'px';
   const backgroundWidth = width + 'px';
