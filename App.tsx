@@ -14,6 +14,8 @@ import {AlbumScreen} from './src/Screens/AlbumScreen';
 import {LoginScreen} from './src/Screens/LoginScreen';
 import {SplashScreen} from './src/Screens/SplashScreen';
 import auth from '@react-native-firebase/auth';
+import {store} from './store';
+import {Provider} from 'react-redux';
 
 const Stack = createNativeStackNavigator();
 
@@ -98,16 +100,22 @@ function App(): JSX.Element {
     }
   };
   return (
-    <ThemeProvider theme={DEFAULT_THEME}>
-      <NavigationContainer>
-        <StatusBar hidden />
-        <Stack.Navigator
-          screenOptions={{headerTransparent: true, headerShown: true}}
-          initialRouteName="Home">
-          {getScreens()}
-        </Stack.Navigator>
-      </NavigationContainer>
-    </ThemeProvider>
+    <Provider store={store}>
+      <ThemeProvider theme={DEFAULT_THEME}>
+        <NavigationContainer>
+          <StatusBar hidden />
+          <Stack.Navigator
+            screenOptions={{
+              headerTransparent: true,
+              headerShown: true,
+              headerStyle: {},
+            }}
+            initialRouteName="Home">
+            {getScreens()}
+          </Stack.Navigator>
+        </NavigationContainer>
+      </ThemeProvider>
+    </Provider>
   );
 }
 
