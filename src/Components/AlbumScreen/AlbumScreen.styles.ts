@@ -7,7 +7,7 @@ export const AlbumNameText = styled.Text`
   font-size: 32px;
   line-height: 40px;
   color: #ffffff;
-  margin-bottom: 150px;
+  margin-bottom: 20px;
   margin-top: 140px;
   text-align: left;
   justify-content: flex-end;
