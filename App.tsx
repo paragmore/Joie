@@ -38,7 +38,9 @@ function App(): JSX.Element {
       return (
         <Stack.Screen
           options={{
-            headerTitle: () => <Header />,
+            // headerTitle: () => <Header />,
+            header: () => <></>,
+
             headerBackTitleVisible: false,
           }}
           name="Splash"
@@ -51,7 +53,7 @@ function App(): JSX.Element {
         <>
           <Stack.Screen
             options={{
-              headerTitle: () => <Header />,
+              header: () => <></>,
               headerBackTitleVisible: false,
             }}
             name="SignIn"
@@ -65,19 +67,26 @@ function App(): JSX.Element {
         <>
           <Stack.Screen
             options={{
-              headerTitle: () => <Header />,
-              headerRight: () => (
-                <HeaderIconContainer>
-                  <SearchIcon width={24} height={24} fill="blue" />
-                </HeaderIconContainer>
+              header: () => (
+                <Header
+                  leftIcon={{
+                    component: (
+                      <HeaderIconContainer>
+                        <HamburgerIcon width={24} height={24} fill="blue" />
+                      </HeaderIconContainer>
+                    ),
+                    onPress: () => {},
+                  }}
+                  rightIcon={{
+                    component: (
+                      <HeaderIconContainer>
+                        <SearchIcon width={24} height={24} fill="blue" />
+                      </HeaderIconContainer>
+                    ),
+                    onPress: () => {},
+                  }}
+                />
               ),
-              headerLeft: () => {
-                return (
-                  <HeaderIconContainer>
-                    <HamburgerIcon width={24} height={24} fill="blue" />
-                  </HeaderIconContainer>
-                );
-              },
             }}
             name="Home"
             component={HomeScreen}
@@ -108,7 +117,6 @@ function App(): JSX.Element {
             screenOptions={{
               headerTransparent: true,
               headerShown: true,
-              headerStyle: {},
             }}
             initialRouteName="Home">
             {getScreens()}

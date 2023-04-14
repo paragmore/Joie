@@ -7,7 +7,8 @@
     "ios": "react-native run-ios",
     "lint": "eslint .",
     "start": "react-native start",
-    "test": "jest"
+    "test": "jest",
+    "sim": "react-native run-ios --simulator  \"iPhone 14 (1C887E27-61A2-4B62-8A74-EAC3BD07DBEA)\""
   },
   "dependencies": {
     "@react-native-firebase/app": "^17.3.2",

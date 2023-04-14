@@ -4,6 +4,7 @@ import {AlbumCardsList} from '../Components/AlbumCardsList';
 import {ScrollView, Text} from 'react-native';
 import {WelcomeText} from '../Components/HomeScreen/HomeScreen.styles';
 import {MediaPlayerOverlay} from '../Components/MediaPlayerOverlay';
+import {MenuCard} from '../Components/MenuCard';
 
 export const HomeScreen = () => {
   return (
@@ -18,6 +19,7 @@ export const HomeScreen = () => {
         <ScrollView>
           <WelcomeText>Welcome, {'\n'} Jessica</WelcomeText>
           <AlbumCardsList />
+          <MenuCard />
           <AlbumCardsList header="Recommended collections" />
           <AlbumCardsList header="Mental fitness" />
         </ScrollView>

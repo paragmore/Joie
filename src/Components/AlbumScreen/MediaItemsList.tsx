@@ -60,7 +60,7 @@ export const MediaItemsList = props => {
       renderItem={({item}) => (
         <MediaItemCard
           name={item.name}
-          isLiked={false}
+          isLiked={item.isLiked}
           imageUrl={item.imageUrl}
           key={item.id}
           subtitle={item.subtitle}

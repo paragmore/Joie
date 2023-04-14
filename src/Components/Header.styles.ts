@@ -4,6 +4,11 @@ export const HeaderContainer = styled.View`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
+  padding: 10px;
+  position: static;
+  width: 100%;
+  background-color: transparent;
+  top: 10px;
 `;
 
 export const HeaderIconContainer = styled.Pressable`
