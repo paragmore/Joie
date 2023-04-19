@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">Joie</string>
+    <string name="facebook_app_id">245242334663978</string>
+    <string name="fb_login_protocol_scheme">fb245242334663978</string>
+    <string name="facebook_client_token">ce7f7cc24a1ffed6899008b8024fe302</string>
+
+
 </resources>

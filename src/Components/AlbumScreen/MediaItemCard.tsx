@@ -17,7 +17,7 @@ export const MediaItemCard: React.FC<{
   subtitle: string;
   isLiked: boolean;
   id: string;
-  isPlaying: boolean;
+  isPlaying: any;
 }> = props => {
   const {name, imageUrl, subtitle, isLiked, id, isPlaying} = props;
   return (
@@ -27,11 +27,11 @@ export const MediaItemCard: React.FC<{
         <MediaName>{name}</MediaName>
         <MediaSubtitle>{subtitle}</MediaSubtitle>
       </View>
-      {isLiked ? (
+      {/* {isLiked ? (
         <HeartFilledIcon width={16} height={16} />
       ) : (
         <HeartBorderedIcon width={16} height={16} />
-      )}
+      )} */}
       <ThreeDotsVerticalIcon width={16} height={16} />
     </MediaItemCardOuterContainer>
   );

@@ -16,10 +16,10 @@ export const HomeScreen = () => {
         //   'https://firebasestorage.googleapis.com/v0/b/joie-c2494.appspot.com/o/pexels-tima-miroshnichenko-5992586.mp4?alt=media&token=1132e745-f34c-4276-bee0-19b149821e05'
         // }
       >
-        <ScrollView>
+        <ScrollView bounces={false}>
           <WelcomeText>Welcome, {'\n'} Jessica</WelcomeText>
           <AlbumCardsList />
-          <MenuCard />
+          {/* <MenuCard /> */}
           <AlbumCardsList header="Recommended collections" />
           <AlbumCardsList header="Mental fitness" />
         </ScrollView>

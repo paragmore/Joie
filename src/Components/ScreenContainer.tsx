@@ -17,7 +17,7 @@ export const ScreenContainer: React.FC<
     props;
   const {height, width} = Dimensions.get('window');
 
-  const [isMediaOverlayVisible, setIsMediaOverlayVisible] = useState(true)
+  const [isMediaOverlayVisible, setIsMediaOverlayVisible] = useState(true);
   const headerHeight = useHeaderHeight();
   const backgroundHeight = headerHeight + height + 35 + 'px';
   const backgroundWidth = width + 'px';
@@ -28,7 +28,9 @@ export const ScreenContainer: React.FC<
   const getInnerContents = () => {
     return (
       <>
-        <ScrollView style={{marginTop: 100, zIndex: 1}}>
+        <ScrollView
+          bounces={false}
+          style={{marginTop: height * 0.1, zIndex: 1}}>
           {props.children}
         </ScrollView>
         {backgroundVideoUrl && (
@@ -58,7 +60,7 @@ export const ScreenContainer: React.FC<
   return (
     <>
       {isBackgroundScrollable ? (
-        <ScrollView style={{backgroundColor: 'black'}}>
+        <ScrollView bounces={false} style={{backgroundColor: 'black'}}>
           {getInnerContents()}
         </ScrollView>
       ) : (

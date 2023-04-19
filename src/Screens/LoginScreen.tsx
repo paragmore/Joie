@@ -2,23 +2,22 @@ import React from 'react';
 import {View, Text} from 'react-native';
 import {GoogleAuthentication} from '../Authentication/GoogleAuthentication';
 import {ScreenContainer} from '../Components/ScreenContainer';
+import {FacebookAuthentication} from '../Authentication/FacebookAuthentication';
+import {AppleAuthentication} from '../Authentication/AppleAuthentication';
+import Strings from '../Util/Strings';
+import style from './LoginScreen.style';
 
 export const LoginScreen = () => {
   return (
     <ScreenContainer
       isBackgroundScrollable={false}
       backgroundImageUrl={require('./../../assets/splash_background.png')}>
-      <View
-        style={{
-          //   justifyContent: 'flex-end',
-          display: 'flex',
-          marginTop: '115%',
-          padding: 10,
-        }}>
-        <Text>Log in</Text>
-        <View style={{display: 'flex', flexDirection: 'row', gap: 10}}>
+      <View style={style.container}>
+        <Text style={style.loginStyleText}>{Strings.LOGIN}</Text>
+        <View style={style.loginButtonView}>
           <GoogleAuthentication />
-          <GoogleAuthentication />
+          <FacebookAuthentication />
+          <AppleAuthentication />
         </View>
       </View>
     </ScreenContainer>

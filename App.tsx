@@ -1,11 +1,11 @@
+/* eslint-disable react/no-unstable-nested-components */
 import React, {useEffect, useState} from 'react';
 import {ThemeProvider} from 'styled-components/native';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {HomeScreen} from './src/Screens/HomeScreen';
 import {DEFAULT_THEME} from './src/Themes/Theme';
-import {Text} from 'react-native-svg';
-import {Button, StatusBar} from 'react-native';
+import {StatusBar} from 'react-native';
 import {Header} from './src/Components/Header';
 import SearchIcon from './assets/search_icon.svg';
 import HamburgerIcon from './assets/hamburger_icon.svg';
@@ -16,6 +16,10 @@ import {SplashScreen} from './src/Screens/SplashScreen';
 import auth from '@react-native-firebase/auth';
 import {store} from './store';
 import {Provider} from 'react-redux';
+import {configureFacebook} from './src/Authentication';
+import Dashboard from './src/Screens/Dashboard';
+import RouteName from './src/Util/RouteName';
+import VideoPlayer from './src/Screens/VideoPlayer';
 
 const Stack = createNativeStackNavigator();
 
@@ -25,12 +29,15 @@ function App(): JSX.Element {
 
   useEffect(() => {
     const subscriber = auth().onAuthStateChanged(onAuthStateChanged);
+    configureFacebook();
     return subscriber; // unsubscribe on unmount
   }, []);
 
   const onAuthStateChanged = (user: any) => {
     console.log(user);
-    if (user) setIsSignedIn(true);
+    if (user) {
+      setIsSignedIn(true);
+    }
   };
 
   const getScreens = () => {
@@ -43,7 +50,7 @@ function App(): JSX.Element {
 
             headerBackTitleVisible: false,
           }}
-          name="Splash"
+          name={RouteName.SPLASH}
           component={SplashScreen}
         />
       );
@@ -56,7 +63,7 @@ function App(): JSX.Element {
               header: () => <></>,
               headerBackTitleVisible: false,
             }}
-            name="SignIn"
+            name={RouteName.SIGNIN}
             component={LoginScreen}
           />
         </>
@@ -66,12 +73,26 @@ function App(): JSX.Element {
       return (
         <>
           <Stack.Screen
+            options={{headerShown: false}}
+            name={RouteName.DASHBOARD}
+            component={Dashboard}
+          />
+          <Stack.Screen
+            options={{headerShown: false}}
+            name={RouteName.VIDEO_PLAYER}
+            component={VideoPlayer}
+          />
+          <Stack.Screen
             options={{
               header: () => (
                 <Header
                   leftIcon={{
                     component: (
-                      <HeaderIconContainer>
+                      <HeaderIconContainer
+                        onPress={async () => {
+                          await auth().signOut();
+                          setIsSignedIn(false);
+                        }}>
                         <HamburgerIcon width={24} height={24} fill="blue" />
                       </HeaderIconContainer>
                     ),
@@ -88,7 +109,7 @@ function App(): JSX.Element {
                 />
               ),
             }}
-            name="Home"
+            name={RouteName.HOME}
             component={HomeScreen}
           />
           <Stack.Screen
@@ -101,7 +122,7 @@ function App(): JSX.Element {
               ),
               headerBackTitleVisible: false,
             }}
-            name="Album"
+            name={RouteName.ALBUM}
             component={AlbumScreen}
           />
         </>
@@ -118,7 +139,7 @@ function App(): JSX.Element {
               headerTransparent: true,
               headerShown: true,
             }}
-            initialRouteName="Home">
+            initialRouteName={RouteName.DASHBOARD}>
             {getScreens()}
           </Stack.Navigator>
         </NavigationContainer>

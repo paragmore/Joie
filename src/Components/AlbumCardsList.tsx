@@ -25,10 +25,11 @@ export const AlbumCardsList: React.FC<{header?: string}> = props => {
     <View>
       <AlbumListHeader>{header}</AlbumListHeader>
       <AlbumCardListContainer
+        bounces={false}
         data={DATA}
         horizontal={true}
         showsHorizontalScrollIndicator={false}
-        renderItem={({item}) => (
+        renderItem={({item}: any) => (
           <AlbumCard
             name={item.name}
             time="3:10"
@@ -37,7 +38,7 @@ export const AlbumCardsList: React.FC<{header?: string}> = props => {
             key={item.id}
           />
         )}
-        keyExtractor={item => item.id}
+        keyExtractor={(item: any) => item.id}
       />
     </View>
   );

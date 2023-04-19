@@ -110,6 +110,11 @@ android {
             include (*reactNativeArchitectures())
         }
     }
+    compileOptions {
+sourceCompatibility = JavaVersion.VERSION_11
+targetCompatibility = JavaVersion.VERSION_11
+}
+    
     signingConfigs {
         debug {
             storeFile file('debug.keystore')
@@ -151,7 +156,6 @@ android {
 dependencies {
     // The version of react-native is set by the React Native Gradle Plugin
     implementation("com.facebook.react:react-android")
-
     implementation("androidx.swiperefreshlayout:swiperefreshlayout:1.0.0")
 
     debugImplementation("com.facebook.flipper:flipper:${FLIPPER_VERSION}")

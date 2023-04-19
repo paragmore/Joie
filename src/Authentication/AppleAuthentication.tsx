@@ -6,10 +6,11 @@ import React, {useEffect, useState} from 'react';
 import {View, Text} from 'react-native';
 import {ImageContainer, LoginButtonContainer} from './Authentication.styles';
 import auth from '@react-native-firebase/auth';
-import {GOOGLE_ICON} from '../Assets';
+import {APPLE_ICON} from '../Assets';
 import {style} from './style';
+import {appleAuth} from '@invertase/react-native-apple-authentication';
 
-export const GoogleAuthentication = () => {
+export const AppleAuthentication = () => {
   const [userInfo, setUserInfo] = useState({});
   //   const [error, setError] = useState({});
   useEffect(() => {
@@ -22,19 +23,24 @@ export const GoogleAuthentication = () => {
   }, []);
   const signIn = async () => {
     try {
-      console.log('signiN');
-      await GoogleSignin.hasPlayServices();
-      const userInfo = await GoogleSignin.signIn();
-      const token = await GoogleSignin.getTokens();
-      const {idToken} = userInfo;
-      const credential = auth.GoogleAuthProvider.credential(
-        idToken,
-        token.accessToken,
-      );
-      await auth().signInWithCredential(credential);
+      const appleAuthRequestResponse = await appleAuth.performRequest({
+        requestedOperation: appleAuth.Operation.LOGIN,
+        requestedScopes: [appleAuth.Scope.EMAIL, appleAuth.Scope.FULL_NAME],
+      });
 
-      console.log(userInfo);
-      setUserInfo({userInfo});
+      // Ensure Apple returned a user identityToken
+      if (!appleAuthRequestResponse.identityToken) {
+        throw new Error('Apple Sign-In failed - no identify token returned');
+      }
+
+      // Create a Firebase credential from the response
+      const {identityToken, nonce} = appleAuthRequestResponse;
+      const appleCredential = auth.AppleAuthProvider.credential(
+        identityToken,
+        nonce,
+      );
+      await auth().signInWithCredential(appleCredential);
+      setUserInfo({appleAuthRequestResponse});
     } catch (error: any) {
       if (error.code === statusCodes.SIGN_IN_CANCELLED) {
         // user cancelled the login flow
@@ -48,25 +54,17 @@ export const GoogleAuthentication = () => {
     }
   };
 
-  const signOut = async () => {
-    try {
-      await GoogleSignin.signOut();
-      setUserInfo({user: null}); // Remember to remove the user from your app's state as well
-    } catch (error) {
-      console.error(error);
-    }
-  };
   return (
     <>
       <LoginButtonContainer flexDirection={'row'} onPress={signIn}>
         <View style={style.container}>
           <ImageContainer
-            resizeMode={'contain'}
             width={'18px'}
             height={'18px'}
-            source={GOOGLE_ICON}
+            resizeMode={'contain'}
+            source={APPLE_ICON}
           />
-          <Text style={style.textStyle}>Google</Text>
+          <Text style={style.textStyle}>Apple</Text>
         </View>
       </LoginButtonContainer>
     </>
