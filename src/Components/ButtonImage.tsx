@@ -7,11 +7,18 @@ interface Props {
   style?: any;
   playIconStyle?: any;
   onPress?: any;
+  disabled?: boolean;
 }
 
-const ButtonImage: FC<Props> = ({container, image, onPress, playIconStyle}) => {
+const ButtonImage: FC<Props> = ({
+  container,
+  image,
+  onPress,
+  playIconStyle,
+  disabled = false,
+}) => {
   return (
-    <TouchableOpacity style={[container]} onPress={onPress}>
+    <TouchableOpacity style={[container]} onPress={onPress} disabled={disabled}>
       <Image
         resizeMode="contain"
         style={[styles.playIconStyle, playIconStyle]}

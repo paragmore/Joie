@@ -1,4 +1,4 @@
-const RouteName = {
+const RouteName: any = {
   HOME: 'Home',
   DASHBOARD: 'Dashboard',
   VIDEO_PLAYER: 'Video_player',

@@ -1,7 +1,8 @@
 import {Image} from 'react-native';
 import styled from 'styled-components/native';
+import FastImage from 'react-native-fast-image';
 
-export const MediaItemCardImage = styled<{isPlaying: boolean}>(Image)`
+export const MediaItemCardImage = styled<{isPlaying: boolean}>(FastImage)`
   border-radius: 20px;
   width: 70px;
   height: 70px;

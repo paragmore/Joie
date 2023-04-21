@@ -9,6 +9,7 @@ import FREEDOM_ICON from './Images/freedom_icon.png';
 import PASSION_ICON from './Images/passion_icon.png';
 import LEFT_ICON from './Images/left.png';
 import RIGHT_ICON from './Images/right.png';
+import BACK_ICON from './Images/back_icon.png';
 
 export {
   GOOGLE_ICON,
@@ -22,4 +23,5 @@ export {
   PASSION_ICON,
   LEFT_ICON,
   RIGHT_ICON,
+  BACK_ICON,
 };

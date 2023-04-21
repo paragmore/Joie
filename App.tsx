@@ -20,12 +20,21 @@ import {configureFacebook} from './src/Authentication';
 import Dashboard from './src/Screens/Dashboard';
 import RouteName from './src/Util/RouteName';
 import VideoPlayer from './src/Screens/VideoPlayer';
+import Emitter from './src/Util/eventEmitter';
+import {MediaPlayerOverlay} from './src/Components/MediaPlayerOverlay';
 
 const Stack = createNativeStackNavigator();
 
 function App(): JSX.Element {
   const [isSignedIn, setIsSignedIn] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [isMediaOverlayVisible, setIsMediaOverlayVisible] = useState(false);
+
+  useEffect(() => {
+    Emitter.on('playAudio', ({data}: any) => {
+      setIsMediaOverlayVisible(true);
+    });
+  }, []);
 
   useEffect(() => {
     const subscriber = auth().onAuthStateChanged(onAuthStateChanged);
@@ -98,14 +107,14 @@ function App(): JSX.Element {
                     ),
                     onPress: () => {},
                   }}
-                  rightIcon={{
-                    component: (
-                      <HeaderIconContainer>
-                        <SearchIcon width={24} height={24} fill="blue" />
-                      </HeaderIconContainer>
-                    ),
-                    onPress: () => {},
-                  }}
+                  // rightIcon={{
+                  //   component: (
+                  //     <HeaderIconContainer>
+                  //       <SearchIcon width={24} height={24} fill="blue" />
+                  //     </HeaderIconContainer>
+                  //   ),
+                  //   onPress: () => {},
+                  // }}
                 />
               ),
             }}
@@ -114,13 +123,8 @@ function App(): JSX.Element {
           />
           <Stack.Screen
             options={{
-              headerTitle: () => <Header />,
-              headerRight: () => (
-                <HeaderIconContainer>
-                  <SearchIcon width={24} height={24} fill="blue" />
-                </HeaderIconContainer>
-              ),
               headerBackTitleVisible: false,
+              headerShown: false
             }}
             name={RouteName.ALBUM}
             component={AlbumScreen}
@@ -142,6 +146,7 @@ function App(): JSX.Element {
             initialRouteName={RouteName.DASHBOARD}>
             {getScreens()}
           </Stack.Navigator>
+          {isMediaOverlayVisible && <MediaPlayerOverlay />}
         </NavigationContainer>
       </ThemeProvider>
     </Provider>
