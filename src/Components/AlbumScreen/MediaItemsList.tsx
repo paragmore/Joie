@@ -1,8 +1,9 @@
 import React from 'react';
-import {FlatList} from 'react-native';
+import {FlatList, View} from 'react-native';
 import {MediaItemCard} from './MediaItemCard';
+import {firstImage, secondImage} from '../../Util';
 
-export const MediaItemsList = props => {
+export const MediaItemsList = ({data}: any) => {
   const DATA = [
     {
       name: 'Calm',
@@ -106,17 +107,19 @@ export const MediaItemsList = props => {
   return (
     <FlatList
       bounces={false}
-      data={DATA}
-      renderItem={({item}) => (
-        <MediaItemCard
-          name={item.name}
-          isLiked={item.isLiked}
-          imageUrl={item.imageUrl}
-          key={item.id}
-          subtitle={item.subtitle}
-          id={item.id}
-          isPlaying={item.isPlaying}
-        />
+      data={data || DATA}
+      renderItem={({item, index}) => (
+        <View>
+          <MediaItemCard
+            data={item}
+            imageUrl={index % 2 === 0 ? firstImage : secondImage}
+          />
+          {data?.length === index + 1 ? (
+            <View style={{height: 200}} />
+          ) : (
+            <View />
+          )}
+        </View>
       )}
       keyExtractor={item => item.id}
     />

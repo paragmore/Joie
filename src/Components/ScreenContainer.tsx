@@ -5,34 +5,45 @@ import Video from 'react-native-video';
 import {BackgroundImage, BackgroundVideo} from './ScreenContainer.styles';
 import {Text} from 'react-native-svg';
 import {MediaPlayerOverlay} from './MediaPlayerOverlay';
+import Emitter from '../Util/eventEmitter';
 
 export const ScreenContainer: React.FC<
   PropsWithChildren<{
     isBackgroundScrollable: boolean;
     backgroundImageUrl?: string;
     backgroundVideoUrl?: string;
+    isScrollView?: boolean;
+    isAudio?: boolean;
   }>
 > = props => {
-  const {backgroundImageUrl, backgroundVideoUrl, isBackgroundScrollable} =
-    props;
+  const {
+    backgroundImageUrl,
+    backgroundVideoUrl,
+    isBackgroundScrollable,
+    isScrollView = false,
+    isAudio = false,
+  } = props;
   const {height, width} = Dimensions.get('window');
 
-  const [isMediaOverlayVisible, setIsMediaOverlayVisible] = useState(true);
+  const [isMediaOverlayVisible, setIsMediaOverlayVisible] = useState(false);
   const headerHeight = useHeaderHeight();
   const backgroundHeight = headerHeight + height + 35 + 'px';
   const backgroundWidth = width + 'px';
-  useEffect(() => {
-    console.log(backgroundHeight);
-  }, [backgroundHeight]);
+  
 
   const getInnerContents = () => {
     return (
       <>
-        <ScrollView
-          bounces={false}
-          style={{marginTop: height * 0.1, zIndex: 1}}>
-          {props.children}
-        </ScrollView>
+        {isScrollView ? (
+          <ScrollView
+            bounces={false}
+            style={{marginTop: height * 0.1, zIndex: 1}}>
+            {props.children}
+          </ScrollView>
+        ) : (
+          <View style={{zIndex: 1}}>{props.children}</View>
+        )}
+
         {backgroundVideoUrl && (
           <BackgroundVideo
             source={{
@@ -67,7 +78,7 @@ export const ScreenContainer: React.FC<
         <View style={{backgroundColor: 'black'}}>{getInnerContents()}</View>
       )}
 
-      {isMediaOverlayVisible && <MediaPlayerOverlay />}
+      {/* {isAudio && isMediaOverlayVisible && <MediaPlayerOverlay />} */}
     </>
   );
 };

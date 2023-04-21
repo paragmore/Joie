@@ -2,23 +2,26 @@ import React from 'react';
 import {View} from 'react-native';
 import {AlbumCard} from './AlbumCard';
 import {AlbumCardListContainer, AlbumListHeader} from './AlbumCardList.styles';
+import {firstImage, secondImage} from '../Util';
 
-export const AlbumCardsList: React.FC<{header?: string}> = props => {
-  const {header} = props;
+export const AlbumCardsList: React.FC<{
+  header?: string;
+  data?: any;
+}> = props => {
+  const {header, data} = props;
+
   const DATA = [
     {
       name: 'Calm',
       time: '3:10',
       isBookMarked: false,
-      imageUrl:
-        'https://firebasestorage.googleapis.com/v0/b/joie-c2494.appspot.com/o/image%2028.png?alt=media&token=9cd1df9a-0317-46da-a993-471c3b1b0be3',
+      imageUrl: firstImage,
     },
     {
       name: 'Calm',
       time: '3:10',
       isBookMarked: false,
-      imageUrl:
-        'https://images.pexels.com/photos/1655166/pexels-photo-1655166.jpeg?auto=compress&cs=tinysrgb&w=800',
+      imageUrl: secondImage,
     },
   ];
   return (
@@ -26,19 +29,22 @@ export const AlbumCardsList: React.FC<{header?: string}> = props => {
       <AlbumListHeader>{header}</AlbumListHeader>
       <AlbumCardListContainer
         bounces={false}
-        data={DATA}
+        data={data || DATA}
         horizontal={true}
         showsHorizontalScrollIndicator={false}
-        renderItem={({item}: any) => (
+        renderItem={({item, index}: any) => (
           <AlbumCard
-            name={item.name}
+            name={item?.name || item?.video_name}
             time="3:10"
             isBookMarked={false}
-            imageUrl={item.imageUrl}
-            key={item.id}
+            imageUrl={
+              item?.image_url || (index % 2 === 0 ? firstImage : secondImage)
+            }
+            data={item}
+            key={index}
           />
         )}
-        keyExtractor={(item: any) => item.id}
+        keyExtractor={(item: any, index: number) => index}
       />
     </View>
   );

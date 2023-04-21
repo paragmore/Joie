@@ -59,6 +59,7 @@ export const style = StyleSheet.create({
   },
   textStyle: {
     color: Colors.WHITE[100],
+    width: '100%',
     fontSize: 14,
     lineHeight: 17,
     fontWeight: '500',

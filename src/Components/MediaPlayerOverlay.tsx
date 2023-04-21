@@ -5,17 +5,22 @@ import PlayerWidget from './PlayerWidget';
 import Strings from '../Util/Strings';
 import Colors from '../Util/Colors';
 import {Audio} from 'expo-av';
+import Emitter from '../Util/eventEmitter';
+
+const demoAudio =
+  'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3';
 
 export const MediaPlayerOverlay = () => {
   const [Loaded, SetLoaded] = React.useState(false);
   const [Loading, SetLoading] = React.useState(false);
+  const [name, SetName] = React.useState('');
   const sound = React.useRef(new Audio.Sound());
   const [isPlaying, setIsPlaying] = React.useState<boolean>(true);
   const [duration, setDuration] = useState<number>(0);
   const [position, setPosition] = useState<number>(0);
 
   useEffect(() => {
-    LoadAudio();
+    // LoadAudio({url: demoAudio});
   }, []);
 
   const getProgress = () => {
@@ -52,6 +57,28 @@ export const MediaPlayerOverlay = () => {
       }
     } catch (error) {}
   };
+  useEffect(() => {
+    Emitter.on('playAudio', async ({data}: any) => {
+      SetName(data.audio_name);
+      if (sound?.current) {
+        try {
+          await sound?.current?.unloadAsync();
+          LoadAudio({url: data.audio_url});
+         
+        } catch (err) {
+          console.log('err>>>', err);
+        }
+      }
+    });
+    return () => {
+      Emitter.off('playAudio');
+      // Unload();
+    };
+  }, []);
+
+  // const Unload = async () => {
+  //   await sound?.current?.unloadAsync();
+  // };
 
   useEffect(() => {
     if (sound.current) {
@@ -73,14 +100,16 @@ export const MediaPlayerOverlay = () => {
     return `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
   };
 
-  const LoadAudio = async () => {
+  const LoadAudio = async ({url}) => {
+    console.log('url>>>', url);
     SetLoading(true);
+    // await sound?.current?.unloadAsync();
     const checkLoading = await sound.current.getStatusAsync();
     if (checkLoading.isLoaded === false) {
       try {
         const result = await sound.current.loadAsync(
           {
-            uri: 'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3',
+            uri: url,
           },
           {},
           true,
@@ -89,6 +118,7 @@ export const MediaPlayerOverlay = () => {
           SetLoading(false);
           console.log('Error in Loading Audio');
         } else {
+          await sound.current.playAsync();
           SetLoading(false);
           SetLoaded(true);
         }
@@ -97,6 +127,7 @@ export const MediaPlayerOverlay = () => {
         SetLoading(false);
       }
     } else {
+     
       SetLoading(false);
     }
   };
@@ -104,9 +135,9 @@ export const MediaPlayerOverlay = () => {
   return (
     <View style={style.container}>
       <View style={style.subContainer}>
-        <View>
-          <Text style={style.textStyle}>{Strings.GOOSBUMPS}</Text>
-          <Text style={style.subTextStyle}>{Strings.TRAVIS_SCOTT}</Text>
+        <View style={{width: '80%'}}>
+          <Text style={style.textStyle}>{name}</Text>
+          {/* <Text style={style.subTextStyle}>{Strings.TRAVIS_SCOTT}</Text> */}
         </View>
         <PlayerWidget
           Loaded={Loaded}

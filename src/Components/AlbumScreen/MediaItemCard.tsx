@@ -7,25 +7,27 @@ import {
   MediaSubtitle,
 } from './MediaItemCard.styles';
 
-import HeartBorderedIcon from './../../../assets/heart_bordered_icon.svg';
-import HeartFilledIcon from './../../../assets/heart_filled_icon.svg';
 import ThreeDotsVerticalIcon from './../../../assets/three_dots_vertical_icon.svg';
+import Emitter from '../../Util/eventEmitter';
 
 export const MediaItemCard: React.FC<{
-  imageUrl: string;
-  name: string;
-  subtitle: string;
-  isLiked: boolean;
-  id: string;
-  isPlaying: any;
+  imageUrl?: string;
+  name?: string;
+  subtitle?: string;
+  isLiked?: boolean;
+  isPlaying?: any;
+  data?: any;
 }> = props => {
-  const {name, imageUrl, subtitle, isLiked, id, isPlaying} = props;
+  const {name, imageUrl, subtitle, isPlaying, data} = props;
   return (
-    <MediaItemCardOuterContainer>
+    <MediaItemCardOuterContainer
+      onPress={() => {
+        Emitter.emit('playAudio', {data: data});
+      }}>
       <MediaItemCardImage isPlaying={isPlaying} source={{uri: imageUrl}} />
       <View style={{flex: 1}}>
-        <MediaName>{name}</MediaName>
-        <MediaSubtitle>{subtitle}</MediaSubtitle>
+        <MediaName>{data.audio_name || name}</MediaName>
+        <MediaSubtitle>{subtitle || ''}</MediaSubtitle>
       </View>
       {/* {isLiked ? (
         <HeartFilledIcon width={16} height={16} />

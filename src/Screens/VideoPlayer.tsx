@@ -1,51 +1,111 @@
-import React, {FC} from 'react';
-import {View, StyleSheet, Text} from 'react-native';
+/* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable react-native/no-inline-styles */
+/* eslint-disable @typescript-eslint/no-unused-vars */
+import React, {FC, useEffect} from 'react';
+import {
+  View,
+  StyleSheet,
+  Text,
+  ActivityIndicator,
+  Modal,
+  ImageBackground,
+  Dimensions,
+} from 'react-native';
 import {Video, ResizeMode} from 'expo-av';
 import {useState, useRef} from 'react';
 import ButtonImage from '../Components/ButtonImage';
-import {LEFT_ICON, PAUSE_ICON, PLAY_ICON, RIGHT_ICON} from '../Assets';
+import {
+  BACK_ICON,
+  LEFT_ICON,
+  PAUSE_ICON,
+  PLAY_ICON,
+  RIGHT_ICON,
+} from '../Assets';
 import Colors from '../Util/Colors';
 import Strings from '../Util/Strings';
 import RouteName from '../Util/RouteName';
 
+const {width, height} = Dimensions.get('screen');
+
 interface Props {
   navigation?: any;
+  route?: any;
 }
-const VideoPlayer: FC<Props> = ({navigation}) => {
+const VideoPlayer: FC<Props> = ({navigation, route}) => {
+  const {thumbnail, video_name, video_url} = route?.params?.data;
   const video = useRef<any>(null);
   const [status, setStatus] = useState<any>({});
+  const [loaded, setLoaded] = useState(false);
+
+  useEffect(async () => {
+    if (video !== null) {
+      await video?.current?.unloadAsync();
+      video.current.playAsync();
+    }
+  }, []);
+
   return (
-    <View>
-      
+    <ImageBackground
+      style={{width: width, height: height}}
+      source={{uri: thumbnail}}>
       <Video
         ref={video}
         style={styles.video}
         source={{
-          uri: 'https://d23dyxeqlo5psv.cloudfront.net/big_buck_bunny.mp4',
+          uri: video_url,
         }}
-        useNativeControls
-        resizeMode={ResizeMode.CONTAIN}
+        useNativeControls={false}
+        resizeMode={ResizeMode.STRETCH}
         isLooping
-        onPlaybackStatusUpdate={status => setStatus(() => status)}
+        onPlaybackStatusUpdate={status => {
+          setStatus(() => status);
+          if (status.isLoaded) {
+            if (loaded) {
+              // video.current.playAsync();
+              setLoaded(false);
+            }
+          } else {
+            if (!loaded) {
+              video.current.playAsync();
+              setLoaded(true);
+            }
+          }
+        }}
       />
-      <View style={styles.headerContainer}>
-        <Text
+      {route?.params?.isSkip ? (
+        <ButtonImage
+          image={BACK_ICON}
           onPress={() => {
+            video.current.pauseAsync();
             navigation.goBack();
           }}
-          style={styles.textColor}>
-          {Strings.BACK}
-        </Text>
-        <Text
-          onPress={() => {
-            navigation.navigate(RouteName.HOME);
-          }}
-          style={styles.textColor}>
-          {Strings.SKIP}
-        </Text>
-      </View>
+          container={{position: 'absolute', top: '5%', left: '5%'}}
+        />
+      ) : (
+        <View style={styles.headerContainer}>
+          <ButtonImage
+            image={BACK_ICON}
+            onPress={() => {
+              video.current.pauseAsync();
+              navigation.goBack();
+            }}
+          />
+          <Text
+            onPress={() => {
+              video.current.pauseAsync();
+              navigation.reset({
+                index: 0,
+                routes: [{name: RouteName.HOME}],
+              });
+            }}
+            style={styles.textColor}>
+            {Strings.SKIP}
+          </Text>
+        </View>
+      )}
+
       <View style={styles.buttons}>
-        <ButtonImage image={LEFT_ICON} />
+        <ButtonImage image={LEFT_ICON} disabled={true} />
         <ButtonImage
           onPress={() =>
             status.isPlaying
@@ -55,9 +115,18 @@ const VideoPlayer: FC<Props> = ({navigation}) => {
           container={styles.playButton}
           image={status.isPlaying ? PAUSE_ICON : PLAY_ICON}
         />
-        <ButtonImage image={RIGHT_ICON} />
+        <ButtonImage image={RIGHT_ICON} disabled={true} />
       </View>
-    </View>
+      <Modal
+        animated={true}
+        animationType={'fade'}
+        transparent={true}
+        visible={loaded}>
+        <View style={{flex: 1, alignItems: 'center', justifyContent: 'center'}}>
+          <ActivityIndicator size="large" color={'red'} />
+        </View>
+      </Modal>
+    </ImageBackground>
   );
 };
 
@@ -65,7 +134,7 @@ export default VideoPlayer;
 
 const styles = StyleSheet.create({
   video: {
-    width: '100%',
+    width: width,
     height: '100%',
   },
   buttons: {
