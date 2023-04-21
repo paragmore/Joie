@@ -105,7 +105,6 @@ const VideoPlayer: FC<Props> = ({navigation, route}) => {
       )}
 
       <View style={styles.buttons}>
-        <ButtonImage image={LEFT_ICON} disabled={true} />
         <ButtonImage
           onPress={() =>
             status.isPlaying
@@ -115,7 +114,6 @@ const VideoPlayer: FC<Props> = ({navigation, route}) => {
           container={styles.playButton}
           image={status.isPlaying ? PAUSE_ICON : PLAY_ICON}
         />
-        <ButtonImage image={RIGHT_ICON} disabled={true} />
       </View>
       <Modal
         animated={true}
@@ -141,8 +139,8 @@ const styles = StyleSheet.create({
     width: '60%',
     position: 'absolute',
     bottom: '10%',
-    flexDirection: 'row',
-    justifyContent: 'space-between',
+    // flexDirection: 'row',
+    justifyContent: 'center',
     alignItems: 'center',
     marginHorizontal: '20%',
   },

@@ -7,8 +7,9 @@ import {firstImage, secondImage} from '../Util';
 export const AlbumCardsList: React.FC<{
   header?: string;
   data?: any;
+  container?: any;
 }> = props => {
-  const {header, data} = props;
+  const {header, data, container} = props;
 
   const DATA = [
     {
@@ -25,7 +26,7 @@ export const AlbumCardsList: React.FC<{
     },
   ];
   return (
-    <View>
+    <View style={[container]}>
       <AlbumListHeader>{header}</AlbumListHeader>
       <AlbumCardListContainer
         bounces={false}

@@ -27,18 +27,24 @@ const Stack = createNativeStackNavigator();
 
 function App(): JSX.Element {
   const [isSignedIn, setIsSignedIn] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const [isMediaOverlayVisible, setIsMediaOverlayVisible] = useState(false);
 
   useEffect(() => {
-    Emitter.on('playAudio', ({data}: any) => {
+    Emitter.on('playAudio', () => {
       setIsMediaOverlayVisible(true);
+    });
+    Emitter.on('stop_audio', async () => {
+      setIsMediaOverlayVisible(false);
     });
   }, []);
 
   useEffect(() => {
     const subscriber = auth().onAuthStateChanged(onAuthStateChanged);
     configureFacebook();
+    setTimeout(() => {
+      setIsLoading(false);
+    }, 3000);
     return subscriber; // unsubscribe on unmount
   }, []);
 
@@ -54,7 +60,6 @@ function App(): JSX.Element {
       return (
         <Stack.Screen
           options={{
-            // headerTitle: () => <Header />,
             header: () => <></>,
 
             headerBackTitleVisible: false,
@@ -64,7 +69,7 @@ function App(): JSX.Element {
         />
       );
     }
-    if (!isSignedIn) {
+    if (!isLoading && !isSignedIn) {
       return (
         <>
           <Stack.Screen
@@ -124,7 +129,7 @@ function App(): JSX.Element {
           <Stack.Screen
             options={{
               headerBackTitleVisible: false,
-              headerShown: false
+              headerShown: false,
             }}
             name={RouteName.ALBUM}
             component={AlbumScreen}

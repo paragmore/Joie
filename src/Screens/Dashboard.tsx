@@ -34,7 +34,7 @@ const Dashboard: FC<Props> = ({navigation}) => {
         <Text style={style.likeDoStyle}>{Strings.LIKE_TO_DO}</Text>
         <CustomButton
           onPress={() => {
-            navigation.navigate(RouteName.VIDEO_PLAYER, {
+            navigation.navigate(RouteName.HOME, {
               data: videoData[0],
               isSkip: false,
             });
@@ -42,10 +42,11 @@ const Dashboard: FC<Props> = ({navigation}) => {
           container={style.buttonContainer}
           image={INSPIRE_ICON}
           text={Strings.INSPIRE}
+          textStyle={{fontFamily: 'Poppins-Medium', fontSize: fontResize(20)}}
         />
         <CustomButton
           onPress={() => {
-            navigation.navigate(RouteName.VIDEO_PLAYER, {
+            navigation.navigate(RouteName.HOME, {
               data: videoData[1],
               isSkip: false,
             });
@@ -53,16 +54,18 @@ const Dashboard: FC<Props> = ({navigation}) => {
           container={style.buttonContainer}
           image={FREEDOM_ICON}
           text={Strings.FREEDOM}
+          textStyle={{fontFamily: 'Poppins-Medium', fontSize: fontResize(20)}}
         />
         <CustomButton
           onPress={() => {
-            navigation.navigate(RouteName.VIDEO_PLAYER, {
+            navigation.navigate(RouteName.HOME, {
               data: videoData[2],
               isSkip: false,
             });
           }}
           image={PASSION_ICON}
           text={Strings.PASSION}
+          textStyle={{fontFamily: 'Poppins-Medium', fontSize: fontResize(20)}}
         />
       </View>
     </ImageBackground>
@@ -82,6 +85,7 @@ const style = StyleSheet.create({
     marginTop: '10%',
     textAlign: 'center',
     fontSize: fontResize(40),
+    fontFamily: 'PlayfairDisplay-SemiBold',
   },
   bottomContainer: {
     position: 'absolute',
@@ -94,6 +98,7 @@ const style = StyleSheet.create({
     fontSize: fontResize(20),
     lineHeight: fontResize(40),
     color: Colors.WHITE[100],
+    fontFamily: 'Poppins-Medium',
   },
   buttonContainer: {
     marginBottom: '2%',

@@ -13,7 +13,7 @@ export const LoginButtonContainer = styled.Pressable`
   align-items: center;
   justify-content: center;
 
-  background-color: rgba(255, 255, 255, 0.3);
+  background-color: #000000;
   border-radius: 12px;
   /* identical to box height, or 18px */
 `;

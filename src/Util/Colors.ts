@@ -10,5 +10,8 @@ const Colors = {
   GRAY: {
     100: 'rgba(255, 255, 255, 0.25)',
   },
+  PRIMARY: {
+    100: '#0A879F',
+  },
 };
 export default Colors;

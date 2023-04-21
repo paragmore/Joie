@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import React, {useEffect, useState} from 'react';
 import {View, Text, Animated} from 'react-native';
 import {style} from './MediaPlayerOverlay.styles';
@@ -6,6 +7,7 @@ import Strings from '../Util/Strings';
 import Colors from '../Util/Colors';
 import {Audio} from 'expo-av';
 import Emitter from '../Util/eventEmitter';
+import CommonDataManager from './CommonDataManager';
 
 const demoAudio =
   'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3';
@@ -57,23 +59,42 @@ export const MediaPlayerOverlay = () => {
       }
     } catch (error) {}
   };
-  useEffect(() => {
-    Emitter.on('playAudio', async ({data}: any) => {
-      SetName(data.audio_name);
+  useEffect(async () => {
+    var commenData: any = CommonDataManager.getInstance();
+    let audioData = commenData.getAudioPlayer();
+    console.log('audioData', audioData);
+    SetName(audioData.audio_name);
+    if (sound?.current) {
+      try {
+        await sound?.current?.unloadAsync();
+        LoadAudio({url: audioData.audio_url});
+      } catch (err) {
+        console.log('err>>>', err);
+      }
+    }
+    // Emitter.on('playAudioData', async ({data}: any) => {
+    //   var commenData = CommonDataManager.getInstance();
+    //   let audioData = commenData.getAudioPlayer();
+    //   console.log('audioData', audioData);
+    //   SetName(audioData.audio_name);
+    //   if (sound?.current) {
+    //     try {
+    //       await sound?.current?.unloadAsync();
+    //       LoadAudio({url: audioData.audio_url});
+    //     } catch (err) {
+    //       console.log('err>>>', err);
+    //     }
+    //   }
+    // });
+    // return () => {
+    //   Emitter.off('playAudioData');
+    //   // Unload();
+    // };
+    Emitter.on('stop_audio', async () => {
       if (sound?.current) {
-        try {
-          await sound?.current?.unloadAsync();
-          LoadAudio({url: data.audio_url});
-         
-        } catch (err) {
-          console.log('err>>>', err);
-        }
+        await sound?.current?.pauseAsync();
       }
     });
-    return () => {
-      Emitter.off('playAudio');
-      // Unload();
-    };
   }, []);
 
   // const Unload = async () => {
@@ -127,7 +148,6 @@ export const MediaPlayerOverlay = () => {
         SetLoading(false);
       }
     } else {
-     
       SetLoading(false);
     }
   };

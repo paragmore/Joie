@@ -11,7 +11,9 @@ export const LoginScreen = () => {
   return (
     <ScreenContainer
       isBackgroundScrollable={false}
+      isScrollView={false}
       backgroundImageUrl={require('./../../assets/splash_background.png')}>
+      <Text style={style.titleText}>{Strings.JOIE}</Text>
       <View style={style.container}>
         <Text style={style.loginStyleText}>{Strings.LOGIN}</Text>
         <View style={style.loginButtonView}>

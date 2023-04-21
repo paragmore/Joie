@@ -1,7 +1,7 @@
 import styled from 'styled-components/native';
 
 export const HeroText = styled.Text`
-  /* font-family: 'Playfair Display'; */
+  font-family: 'PlayfairDisplay-SemiBold';
   font-style: normal;
   font-weight: 600;
   font-size: 40px;
@@ -10,11 +10,10 @@ export const HeroText = styled.Text`
   text-align: center;
   color: #ffffff;
   display: flex;
-  margin-top: 90%;
 `;
 
 export const QuoteText = styled.Text`
-  /* font-family: 'Playfair Display'; */
+  font-family: 'PlayfairDisplay-Medium';
   font-style: normal;
   font-weight: 500;
   font-size: 16px;

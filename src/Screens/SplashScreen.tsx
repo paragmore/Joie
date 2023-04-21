@@ -9,9 +9,10 @@ import {
 export const SplashScreen = () => {
   return (
     <ScreenContainer
+      isScrollView={false}
       isBackgroundScrollable={false}
       backgroundImageUrl={require('./../../assets/splash_background.png')}>
-      <HeroText>JOIE</HeroText>
+      <HeroText style={{marginTop: '150%',}}>JOIE</HeroText>
       <QuoteText>
         Keep smiling, because life is a beautiful thing and there's so much to
         smile about

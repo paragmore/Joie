@@ -35,8 +35,8 @@ export const AlbumScreen: FC<Props> = ({navigation, route}) => {
         container={{position: 'absolute', top: '5%', left: '5%'}}
       />
       <AlbumNameText>{data?.name || albumName}</AlbumNameText>
-      <View style={{height: '72%'}}>
-      <MediaItemsList data={data?.data} />
+      <View style={{height: '42%'}}>
+        <MediaItemsList data={data?.data} />
       </View>
     </ScreenContainer>
   );

@@ -9,6 +9,9 @@ import {
 
 import ThreeDotsVerticalIcon from './../../../assets/three_dots_vertical_icon.svg';
 import Emitter from '../../Util/eventEmitter';
+import CommonDataManager from '../CommonDataManager';
+
+
 
 export const MediaItemCard: React.FC<{
   imageUrl?: string;
@@ -22,9 +25,13 @@ export const MediaItemCard: React.FC<{
   return (
     <MediaItemCardOuterContainer
       onPress={() => {
-        Emitter.emit('playAudio', {data: data});
+        Emitter.emit('playAudio');
+        Emitter.emit('playAudioData', {data: data});
+        var commonData: any = CommonDataManager.getInstance();
+        commonData.setAudioPlayer(data)
+
       }}>
-      <MediaItemCardImage isPlaying={isPlaying} source={{uri: imageUrl}} />
+      {/* <MediaItemCardImage isPlaying={isPlaying} source={{uri: imageUrl}} /> */}
       <View style={{flex: 1}}>
         <MediaName>{data.audio_name || name}</MediaName>
         <MediaSubtitle>{subtitle || ''}</MediaSubtitle>

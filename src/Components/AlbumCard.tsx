@@ -3,6 +3,7 @@ import React from 'react';
 import {Pressable, View} from 'react-native';
 import {AlbumCardImage, AlbumCardName} from './AlbumCard.styles';
 import RouteName from '../Util/RouteName';
+import Emitter from '../Util/eventEmitter';
 
 export const AlbumCard: React.FC<{
   imageUrl?: string;
@@ -15,6 +16,7 @@ export const AlbumCard: React.FC<{
   const {navigate} = useNavigation();
   const navigateToAlbumScreen = () => {
     if (data?.thumbnail) {
+      Emitter.emit('stop_audio');
       navigate(RouteName?.VIDEO_PLAYER, {data: data, isSkip: true});
     } else {
       navigate(RouteName.ALBUM, {
@@ -29,9 +31,11 @@ export const AlbumCard: React.FC<{
       <Pressable
         style={{overflow: 'hidden', borderRadius: 20}}
         onPress={navigateToAlbumScreen}>
-        <AlbumCardImage source={{uri: data?.thumbnail || imageUrl}}>
-          <AlbumCardName>{name}</AlbumCardName>
-        </AlbumCardImage>
+        <AlbumCardImage
+          resizeMode="cover"
+          source={{uri: data?.thumbnail || imageUrl}}
+        />
+        <AlbumCardName>{name}</AlbumCardName>
       </Pressable>
     </View>
   );
