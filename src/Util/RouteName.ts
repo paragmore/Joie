@@ -5,5 +5,7 @@ const RouteName: any = {
   ALBUM: 'Album',
   SPLASH: 'Splash',
   SIGNIN: 'SignIn',
+  PRIVACY_POLICY: 'Privacy_Policy',
+  TERM_CONDITION:"Term_Condition"
 };
 export default RouteName;

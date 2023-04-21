@@ -29,15 +29,16 @@ const Dashboard: FC<Props> = ({navigation}) => {
   };
   return (
     <ImageBackground style={style.container} source={DASHBOARD_IMAGE}>
-      <Text style={style.titleText}>{Strings.JOIE}</Text>
+      
       <View style={style.bottomContainer}>
         <Text style={style.likeDoStyle}>{Strings.LIKE_TO_DO}</Text>
         <CustomButton
           onPress={() => {
-            navigation.navigate(RouteName.VIDEO_PLAYER, {
-              data: videoData[0],
-              isSkip: false,
-            });
+            // navigation.navigate(RouteName.VIDEO_PLAYER, {
+            //   data: videoData[0],
+            //   isSkip: false,
+            // });
+            navigation.navigate(RouteName.HOME);
           }}
           container={style.buttonContainer}
           image={INSPIRE_ICON}

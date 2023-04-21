@@ -10,6 +10,7 @@ import PASSION_ICON from './Images/passion_icon.png';
 import LEFT_ICON from './Images/left.png';
 import RIGHT_ICON from './Images/right.png';
 import BACK_ICON from './Images/back_icon.png';
+import BACK_BLACK from './Images/back_black.png';
 
 export {
   GOOGLE_ICON,
@@ -24,4 +25,5 @@ export {
   LEFT_ICON,
   RIGHT_ICON,
   BACK_ICON,
+  BACK_BLACK
 };
