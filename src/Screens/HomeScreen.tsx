@@ -116,11 +116,11 @@ export const HomeScreen = () => {
             <Text style={styles.textStyle}>Privacy Policy</Text>
           </TouchableOpacity>
 
-          <TouchableOpacity onPress={() =>{
+          {/* <TouchableOpacity onPress={() =>{
             navigation.navigate(RouteName.TERM_CONDITION);
           }}>
             <Text style={styles.textStyle}>{"Term & Condition"}</Text>
-          </TouchableOpacity>
+          </TouchableOpacity> */}
           <TouchableOpacity
             onPress={() => {
               logout()
@@ -138,8 +138,8 @@ const styles = StyleSheet.create({
   container: {
     top: 5,
     left: 15,
-    width: width / 3,
-    height: height / 5,
+    width: width / 4,
+    height: 150,
     position: 'absolute',
     borderRadius: 10,
     padding: 20,

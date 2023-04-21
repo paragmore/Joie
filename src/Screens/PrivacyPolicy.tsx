@@ -4,6 +4,7 @@ import WebView from "react-native-webview";
 import ButtonImage from "../Components/ButtonImage";
 import { BACK_BLACK, BACK_ICON } from '../Assets';
 import { useNavigation } from "@react-navigation/native";
+import Colors from "../Util/Colors";
 
 const PrivacyPolicy: FC = ({ }) => {
     const navigation = useNavigation();
@@ -11,7 +12,7 @@ const PrivacyPolicy: FC = ({ }) => {
 
     return (
 
-        <View style={{ flex: 1, flexDirection: 'column' }}>
+        <View style={{ flex: 1, flexDirection: 'column',backgroundColor:'white' }}>
             
                 <ButtonImage
                     image={BACK_BLACK}
@@ -19,10 +20,10 @@ const PrivacyPolicy: FC = ({ }) => {
                         navigation.goBack();
                     }}
                     playIconStyle={{ width: 40, height: 40 ,margin: 10}}
-                    container={{ position: 'absolute',zIndex:1 }}
+                    container={{ position: 'absolute',zIndex:1,backgroundColor: '#D3D3D3',borderRadius: 50,marginLeft: 7,marginTop: 10 }}
                 />
         
-            <WebView source={{ uri: 'https://www.lipsum.com/' }} style={{ flex: 1 }} />
+            <WebView source={{ uri: 'http://122.187.19.218/joie/privacy-policy.html' }} style={{ flex: 1,marginTop:50,marginHorizontal:10}} />
 
         </View>
 
