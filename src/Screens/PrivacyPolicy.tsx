@@ -1,10 +1,9 @@
 import React, {FC} from 'react';
-import {View, Text, StyleSheet} from 'react-native';
+import {View} from 'react-native';
 import WebView from 'react-native-webview';
 import ButtonImage from '../Components/ButtonImage';
-import {BACK_BLACK, BACK_ICON} from '../Assets';
+import {BACK_BLACK} from '../Assets';
 import {useNavigation} from '@react-navigation/native';
-import Colors from '../Util/Colors';
 
 const PrivacyPolicy: FC = ({}) => {
   const navigation = useNavigation();
@@ -29,7 +28,7 @@ const PrivacyPolicy: FC = ({}) => {
       />
 
       <WebView
-      showsVerticalScrollIndicator={false}
+        showsVerticalScrollIndicator={false}
         source={{uri: 'http://122.187.19.218/joie/privacy-policy.html'}}
         style={{flex: 1, marginTop: '25%', marginHorizontal: 10}}
       />

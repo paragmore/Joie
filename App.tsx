@@ -14,7 +14,6 @@ import {AlbumScreen} from './src/Screens/AlbumScreen';
 import {LoginScreen} from './src/Screens/LoginScreen';
 import {SplashScreen} from './src/Screens/SplashScreen';
 import auth from '@react-native-firebase/auth';
-import {store} from './src/redux/store';
 import {Provider} from 'react-redux';
 import {configureFacebook} from './src/Authentication';
 import Dashboard from './src/Screens/Dashboard';
@@ -25,6 +24,8 @@ import {MediaPlayerOverlay} from './src/Components/MediaPlayerOverlay';
 import PrivacyPolicy from './src/Screens/PrivacyPolicy';
 import { getFirebaseUserData, setFirebaseUserData } from './src/Constant/Firebase';
 import {withIAPContext} from 'react-native-iap';
+import { store } from './src/Redux/store';
+
 
 const Stack = createNativeStackNavigator();
 

@@ -1,19 +1,16 @@
 import React, {FC, useState, useEffect} from 'react';
 import {AlbumNameText} from '../Components/AlbumScreen/AlbumScreen.styles';
 import {MediaItemsList} from '../Components/AlbumScreen/MediaItemsList';
-import {MediaPlayerOverlay} from '../Components/MediaPlayerOverlay';
-import PlayerWidget from '../Components/PlayerWidget';
 import {ScreenContainer} from '../Components/ScreenContainer';
 import {View} from 'react-native';
-import style from './AlbumScreen.style';
 import ButtonImage from '../Components/ButtonImage';
 import {BACK_ICON} from '../Assets';
 import CustomSubscriptionsModal from '../Components/CustomSubscriptionsModal';
 import {useDispatch, useSelector} from 'react-redux';
 import {updateFirebaseUserData} from '../Constant/Firebase';
-import {setLoginUserData} from '../redux/player-slice';
-import {Sku, useIAP, requestSubscription} from 'react-native-iap';
-import { productSkus } from '../Util';
+import {useIAP} from 'react-native-iap';
+import {productSkus} from '../Util';
+import {setLoginUserData} from '../Redux/player_slice';
 
 interface Props {
   navigation?: any;
@@ -21,23 +18,12 @@ interface Props {
 }
 
 export const AlbumScreen: FC<Props> = ({navigation, route}) => {
-  const {itemId, albumName, data} = route.params;
+  const {albumName, data} = route.params;
   const [modalVisible, setModalVisible] = useState(false);
   const dispatch = useDispatch();
   const userDetails = useSelector((state: any) => state.player?.userData);
 
-  const {
-    connected,
-    products,
-    currentPurchase,
-    currentPurchaseError,
-    initConnectionError,
-    finishTransaction,
-    getProducts,
-    subscriptions,
-    getSubscriptions,
-    requestSubscription,
-  } = useIAP();
+  const {subscriptions, getSubscriptions, requestSubscription} = useIAP();
 
   useEffect(() => {
     handleGetProducts();
@@ -56,7 +42,7 @@ export const AlbumScreen: FC<Props> = ({navigation, route}) => {
     setModalVisible(false);
     try {
       await requestSubscription({sku: sku});
-      const updateUserData = await updateFirebaseUserData({
+      const updateUserData: any = await updateFirebaseUserData({
         id: userDetails?.id,
         subscriptions: true,
       });

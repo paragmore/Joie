@@ -1,5 +1,5 @@
 import {combineReducers, configureStore} from '@reduxjs/toolkit';
-import playerSlice from './player-slice';
+import playerSlice from './player_slice';
 import {TypedUseSelectorHook, useDispatch, useSelector} from 'react-redux';
 
 const reducer = combineReducers({

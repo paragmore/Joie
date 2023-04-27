@@ -11,7 +11,7 @@ import ThreeDotsVerticalIcon from './../../../assets/three_dots_vertical_icon.sv
 import Emitter from '../../Util/eventEmitter';
 import CommonDataManager from '../CommonDataManager';
 import {useDispatch} from 'react-redux';
-import {setAudioPlayerData} from '../../redux/player-slice';
+import {setAudioPlayerData} from '../../Redux/player_slice';
 import {LOCK_ICON} from '../../Assets';
 
 export const MediaItemCard: React.FC<{

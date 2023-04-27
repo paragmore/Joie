@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, Text} from 'react-native';
+import {View, Text, Platform} from 'react-native';
 import {GoogleAuthentication} from '../Authentication/GoogleAuthentication';
 import {ScreenContainer} from '../Components/ScreenContainer';
 import {FacebookAuthentication} from '../Authentication/FacebookAuthentication';
@@ -21,7 +21,7 @@ export const LoginScreen = () => {
           <View style={style.loginButtonView}>
             <GoogleAuthentication />
             <FacebookAuthentication />
-            <AppleAuthentication />
+            {Platform.OS === 'ios' && <AppleAuthentication />}
           </View>
         </View>
       </View>

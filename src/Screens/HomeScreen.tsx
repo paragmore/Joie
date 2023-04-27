@@ -52,7 +52,7 @@ import {
 } from 'react-native-iap';
 import {productSkus} from '../Util';
 import {useDispatch, useSelector} from 'react-redux';
-import {setLoginUserData} from '../redux/player-slice';
+import {setLoginUserData} from '../Redux/player_slice';
 
 interface Props {
   navigation?: any;
