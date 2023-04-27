@@ -7,8 +7,8 @@ export const WelcomeText = styled.Text`
   font-size: 32px;
   line-height: 40px;
   color: #ffffff;
-  margin-bottom: 150px;
-  margin-top: 40%;
+  margin-bottom: 75%;
+  margin-top: 10%;
   text-align: left;
   justify-content: flex-end;
   align-items: flex-end;

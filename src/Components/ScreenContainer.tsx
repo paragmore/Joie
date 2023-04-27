@@ -14,6 +14,7 @@ export const ScreenContainer: React.FC<
     backgroundVideoUrl?: string;
     isScrollView?: boolean;
     isAudio?: boolean;
+    isBackgroundImage?: boolean;
   }>
 > = props => {
   const {
@@ -22,6 +23,7 @@ export const ScreenContainer: React.FC<
     isBackgroundScrollable,
     isScrollView = false,
     isAudio = false,
+    isBackgroundImage,
   } = props;
   const {height, width} = Dimensions.get('window');
 
@@ -29,15 +31,12 @@ export const ScreenContainer: React.FC<
   const headerHeight = useHeaderHeight();
   const backgroundHeight = headerHeight + height + 35 + 'px';
   const backgroundWidth = width + 'px';
-  
 
   const getInnerContents = () => {
     return (
       <>
         {isScrollView ? (
-          <ScrollView
-            bounces={false}
-            style={{marginTop: height * 0.1, zIndex: 1}}>
+          <ScrollView bounces={false}>
             {props.children}
           </ScrollView>
         ) : (
@@ -57,20 +56,29 @@ export const ScreenContainer: React.FC<
             ignoreSilentSwitch={'obey'}
           />
         )}
-        {backgroundImageUrl && (
+        {/* {backgroundImageUrl && (
           <BackgroundImage
             width={backgroundWidth}
             height={backgroundHeight}
             source={backgroundImageUrl}
           />
-        )}
+        )} */}
       </>
     );
   };
 
   return (
     <>
-      {isBackgroundScrollable ? (
+      {isBackgroundImage ? (
+        <BackgroundImage
+          width={backgroundWidth}
+          height={height}
+          style={{backgroundColor: 'black'}}
+          resizeMode="cover"
+          source={backgroundImageUrl}>
+          {getInnerContents()}
+        </BackgroundImage>
+      ) : isBackgroundScrollable ? (
         <ScrollView bounces={false} style={{backgroundColor: 'black'}}>
           {getInnerContents()}
         </ScrollView>

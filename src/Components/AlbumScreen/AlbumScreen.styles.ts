@@ -13,5 +13,6 @@ export const AlbumNameText = styled.Text`
   justify-content: flex-end;
   align-items: flex-end;
   display: flex;
-  margin-left: 20px;
+  text-transform: capitalize;
+  /* margin-left: 10px; */
 `;

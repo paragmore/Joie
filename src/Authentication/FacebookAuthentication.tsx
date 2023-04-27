@@ -36,7 +36,6 @@ export const FacebookAuthentication = () => {
                 console.log('Error fetching data: ', error);
                 console.log(error);
               } else {
-                console.log('fetching data facebook>>>', result);
                 //   resolve(result);
                 AccessToken.getCurrentAccessToken().then(async (data: any) => {
                   let token = data.accessToken.toString();
@@ -47,7 +46,6 @@ export const FacebookAuthentication = () => {
 
                   setUserInfo({result});
 
-                  console.log(facebookCredential);
                 });
               }
             },

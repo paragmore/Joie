@@ -1,5 +1,7 @@
-/* eslint-disable react-hooks/exhaustive-deps */
-import React, {useEffect, useState, useRef, FC} from 'react';
+/* eslint-disable react-native/no-inline-styles */
+/* eslint-disable @typescript-eslint/no-unused-vars */
+
+import React, {useEffect, useState, useRef, FC, useCallback} from 'react';
 import {
   StyleSheet,
   View,
@@ -8,13 +10,21 @@ import {
   ImageBackground,
   Modal,
   ActivityIndicator,
+  TouchableOpacity,
+  Image,
+  Alert,
+  Platform,
 } from 'react-native';
 import {ScreenContainer} from '../Components/ScreenContainer';
 import {AlbumCardsList} from '../Components/AlbumCardsList';
 import {ScrollView} from 'react-native';
 import {WelcomeText} from '../Components/HomeScreen/HomeScreen.styles';
-import {getFirebaseAudioData, getFirebaseVideoData} from '../Constant/Firebase';
-import auth from '@react-native-firebase/auth';
+import {
+  getFirebaseAudioData,
+  getFirebaseUserData,
+  getFirebaseVideoData,
+  updateFirebaseUserData,
+} from '../Constant/Firebase';
 import {Video, ResizeMode} from 'expo-av';
 import ButtonImage from '../Components/ButtonImage';
 import {PanGestureHandler} from 'react-native-gesture-handler';
@@ -24,16 +34,25 @@ import Animated, {
   useSharedValue,
   withSpring,
 } from 'react-native-reanimated';
-import {
-  BACK_ICON,
-  LEFT_ICON,
-  PAUSE_ICON,
-  PLAY_ICON,
-  RIGHT_ICON,
-} from '../Assets';
+import {BACK_ICON, BOTTOM_SWIPE_ICON, PAUSE_ICON, PLAY_ICON} from '../Assets';
 import Colors from '../Util/Colors';
-import Strings from '../Util/Strings';
 import RouteName from '../Util/RouteName';
+import auth from '@react-native-firebase/auth';
+import {useNavigation} from '@react-navigation/native';
+import HamburgerIcon from '../../assets/hamburger_icon.svg';
+import {fontResize} from '../Util/font';
+import Emitter from '../Util/eventEmitter';
+import CustomSubscriptionsModal from '../Components/CustomSubscriptionsModal';
+import {
+  isIosStorekit2,
+  PurchaseError,
+  requestPurchase,
+  Sku,
+  useIAP,
+} from 'react-native-iap';
+import {productSkus} from '../Util';
+import {useDispatch, useSelector} from 'react-redux';
+import {setLoginUserData} from '../redux/player-slice';
 
 interface Props {
   navigation?: any;
@@ -43,7 +62,7 @@ interface Props {
 const SWIPE_THRESHOLD = 100;
 
 const {width, height} = Dimensions.get('window');
-export const HomeScreen: FC<Props> = ({navigation, route}) => {
+export const HomeScreen: FC<Props> = ({route}) => {
   const thumbnail =
     route?.params?.data?.thumbnail ||
     'https://firebasestorage.googleapis.com/v0/b/joie-c2494.appspot.com/o/video%2Fthumbnail%2Fwave5.png?alt=media&token=bdf78575-8a2f-4f2d-9570-1b2b47e6da8e';
@@ -53,47 +72,116 @@ export const HomeScreen: FC<Props> = ({navigation, route}) => {
 
   const translateY = useSharedValue(0);
   const top = useSharedValue(height);
-  const [videoThumbnail, setVideoThumbnail] = useState('');
-  const [video_urlData, setVideo_urlData] = useState('');
   const [videoData, setVideoData] = useState([]);
   const [audioData, setAudioData] = useState([]);
-  const [userData, setUserData] = useState({});
+  const [userData, setUserData] = useState<any>({});
   const [viewHeight, setViewHeight] = useState(height);
   const video = useRef<any>(null);
   const [status, setStatus] = useState<any>({});
   const [loaded, setLoaded] = useState(false);
-  const [showView, setShowView] = useState(true);
+  const [modalVisible, setModalVisible] = useState(false);
+  const [drawer, setDrawer] = useState(false);
+  const navigation = useNavigation();
+  const dispatch = useDispatch();
+  const userDetails = useSelector((state: any) => state.player?.userData);
+  const videoDataList: any = [
+    'night sky',
+    'mountains',
+    'waves',
+    'waterfalls',
+    'abstract',
+  ];
 
-  useEffect(async () => {
-    // top.value = height;
+  const {
+    connected,
+    products,
+    currentPurchase,
+    currentPurchaseError,
+    initConnectionError,
+    finishTransaction,
+    getProducts,
+    subscriptions,
+    getSubscriptions,
+    requestSubscription,
+  } = useIAP();
+
+  useEffect(() => {
+    checkVideoDetails();
+    handleGetProducts();
+  }, []);
+
+  const handleGetProducts = async () => {
+    try {
+      await getSubscriptions({skus: productSkus});
+    } catch (error) {
+      console.log('handleGetProducts', error);
+    }
+  };
+
+  // unload video old video
+  async function checkVideoDetails() {
     if (video !== null) {
       await video?.current?.unloadAsync();
       video?.current?.playAsync();
     }
-  }, []);
+  }
 
+  // Pay  user Subscription
+  const payMonthly = async (sku: Sku) => {
+    setModalVisible(false);
+    try {
+      await requestSubscription({sku: sku});
+      const updateUserData = await updateFirebaseUserData({
+        id: userDetails?.id,
+        subscriptions: true,
+      });
+      var user = userDetails;
+      user.subscriptions = true;
+      dispatch(setLoginUserData(user));
+    } catch (error) {
+      console.log('error>>>', error);
+    }
+  };
+
+  // logout current user
+  const logout = async () => {
+    await auth().signOut();
+    Emitter.emit('logout');
+  };
+
+  // call audio and video data get function
   useEffect(() => {
     getAllVideoData();
     getAllAudioData();
   }, []);
+
+  // Fetch all video data firestore
   const getAllVideoData = async () => {
     var videosData: any = await getFirebaseVideoData();
     setVideoData(videosData);
-
-    // console.log('videoData', videosData);
   };
+
+  // Fetch all audio data firestore
   const getAllAudioData = async () => {
     var audiosData: any = await getFirebaseAudioData();
     setAudioData(audiosData);
   };
 
+  // Check firebase AuthStateChanged data
   useEffect(() => {
     const subscriber = auth().onAuthStateChanged(onAuthStateChanged);
     return subscriber; // unsubscribe on unmount
   }, []);
 
+  // get user data
   const onAuthStateChanged = (user: any) => {
-    setUserData(user);
+    getUserData(user);
+  };
+
+  // Fetch firebase store user data
+  const getUserData = async (user: any) => {
+    const userInfoData: any = await getFirebaseUserData({id: user.uid});
+    setUserData(userInfoData._data);
   };
 
   const onGestureEvent = useAnimatedGestureHandler({
@@ -105,21 +193,9 @@ export const HomeScreen: FC<Props> = ({navigation, route}) => {
     },
     onEnd: ({translationY, velocityY}) => {
       if (translationY < -SWIPE_THRESHOLD || velocityY < -500) {
-        console.log('translationY>>', translationY);
         translateY.value = withSpring(-height);
         top.value = 0;
-        //  setTimeout(()=>{
-        //   if (showView){
-        //     setShowView(false)
-        //   }
-        //  }, 100)
-
-        // if (translationY == -500 ) {
-        //   video?.current?.pauseAsync();
-        //   // setViewHeight(-height);
-        // }
       } else {
-        console.log('translationY>>123', translationY);
         translateY.value = withSpring(0);
       }
     },
@@ -135,12 +211,20 @@ export const HomeScreen: FC<Props> = ({navigation, route}) => {
       transform: [{translateY: top.value}],
     };
   });
-  console.log('top value', top.value);
+
+  const getVideoIndex = useCallback(
+    (name: any) => {
+      return videoData.findIndex(
+        (element: any) => element?.name == name.toLowerCase(),
+      );
+    },
+    [videoData],
+  );
 
   return (
     <>
       {top.value !== 0 && (
-        <View style={{position: 'absolute', zIndex: 999}}>
+        <View style={style.videoViewContainer}>
           <PanGestureHandler onGestureEvent={onGestureEvent}>
             <Animated.View style={[{flex: 1}, animatedStyle]}>
               <View style={{height: viewHeight}}>
@@ -160,7 +244,6 @@ export const HomeScreen: FC<Props> = ({navigation, route}) => {
                       setStatus(() => status);
                       if (status.isLoaded) {
                         if (loaded) {
-                          // video.current.playAsync();
                           setLoaded(false);
                         }
                       } else {
@@ -171,40 +254,16 @@ export const HomeScreen: FC<Props> = ({navigation, route}) => {
                       }
                     }}
                   />
-                  {/* {route?.params?.isSkip ? (
                   <ButtonImage
+                    container={{position: 'absolute', top: '5%', left: '5%'}}
                     image={BACK_ICON}
                     onPress={() => {
                       video.current.pauseAsync();
                       navigation.goBack();
                     }}
-                    container={{position: 'absolute', top: '5%', left: '5%'}}
                   />
-                ) : (
-                  <View style={styles.headerContainer}>
-                    <ButtonImage
-                      image={BACK_ICON}
-                      onPress={() => {
-                        video.current.pauseAsync();
-                        navigation.goBack();
-                      }}
-                    />
-                    <Text
-                      onPress={() => {
-                        video.current.pauseAsync();
-                        navigation.reset({
-                          index: 0,
-                          routes: [{name: RouteName.HOME}],
-                        });
-                      }}
-                      style={styles.textColor}>
-                      {Strings.SKIP}
-                    </Text>
-                  </View>
-                )} */}
 
                   <View style={style.buttons}>
-                    {/* <ButtonImage image={LEFT_ICON} disabled={true} /> */}
                     <ButtonImage
                       onPress={() =>
                         status.isPlaying
@@ -214,8 +273,15 @@ export const HomeScreen: FC<Props> = ({navigation, route}) => {
                       container={style.playButton}
                       image={status.isPlaying ? PAUSE_ICON : PLAY_ICON}
                     />
-                    {/* <ButtonImage image={RIGHT_ICON} disabled={true} /> */}
                   </View>
+                  <View style={style.bottomImageView}>
+                    <Image
+                      resizeMode={'contain'}
+                      source={BOTTOM_SWIPE_ICON}
+                      style={style.swipeIcon}
+                    />
+                  </View>
+
                   <Modal
                     animated={true}
                     animationType={'fade'}
@@ -239,29 +305,71 @@ export const HomeScreen: FC<Props> = ({navigation, route}) => {
       )}
 
       {/* Bottom View */}
-      <Animated.View
-        style={[{flex: 1, height: height, zIndex: 99}, topHeightStyle]}>
+      <Animated.View style={[style.animatedViewContainer, topHeightStyle]}>
         <ScreenContainer
           isBackgroundScrollable={true}
+          isBackgroundImage={true}
           isScrollView={false}
           isAudio={true}
           backgroundImageUrl={require('./../../assets/home_background.png')}>
+          <TouchableOpacity
+            style={style.menuButton}
+            onPress={() => {
+              setDrawer(!drawer);
+            }}>
+            <HamburgerIcon width={24} height={24} fill="blue" />
+          </TouchableOpacity>
           <ScrollView bounces={false}>
             <WelcomeText>
-              Welcome, {'\n'} {userData?.displayName}
+              Welcome, {'\n'}
+              {userData?.name}
             </WelcomeText>
-            <AlbumCardsList data={audioData} />
             <AlbumCardsList
-              container={style.container}
-              data={videoData}
-              header="Recommended collections"
+              userData={userDetails}
+              isVideo={false}
+              data={audioData}
             />
-            <AlbumCardsList
-              container={style.container}
-              data={videoData}
-              header="Mental fitness"
-            />
+            {videoDataList.map((item: any) => (
+              <AlbumCardsList
+                setSubscription={() => {
+                  setModalVisible(true);
+                }}
+                userData={userDetails}
+                isVideo={true}
+                container={style.container}
+                data={videoData[getVideoIndex(item)]}
+                header="Recommended collections"
+              />
+            ))}
+
             <View style={{height: 150}} />
+
+            {drawer && (
+              <View style={style.subContainer}>
+                <TouchableOpacity
+                  onPress={() => {
+                    navigation.navigate(RouteName.PRIVACY_POLICY);
+                  }}>
+                  <Text style={style.textStyle}>Privacy Policy</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  onPress={() => {
+                    logout();
+                  }}>
+                  <Text style={style.textStyle}>Logout</Text>
+                </TouchableOpacity>
+              </View>
+            )}
+            <CustomSubscriptionsModal
+              modalVisible={modalVisible}
+              subscriptions={subscriptions}
+              setModalVisible={(data: any) => {
+                setModalVisible(data);
+              }}
+              subScriptionButtonPress={(data: any) => {
+                payMonthly(data);
+              }}
+            />
           </ScrollView>
         </ScreenContainer>
       </Animated.View>
@@ -272,6 +380,16 @@ export const HomeScreen: FC<Props> = ({navigation, route}) => {
 const style = StyleSheet.create({
   container: {
     marginTop: 50,
+  },
+  subContainer: {
+    top: 5,
+    left: 15,
+    width: width / 2,
+    height: 150,
+    position: 'absolute',
+    borderRadius: 10,
+    padding: 20,
+    backgroundColor: '#212121',
   },
   video: {
     width: width,
@@ -305,5 +423,46 @@ const style = StyleSheet.create({
   },
   textColor: {
     color: Colors.WHITE[100],
+  },
+  textStyle: {
+    fontStyle: 'normal',
+    fontFamily: 'PlayfairDisplay-Medium',
+    color: 'white',
+    fontSize: fontResize(18),
+    marginTop: 10,
+    marginBottom: 15,
+    width: '100%',
+  },
+  swipeIcon: {
+    width: 50,
+    height: 50,
+  },
+  bottomImageView: {
+    position: 'absolute',
+    bottom: 0,
+    width: '100%',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  menuButton: {
+    width: 60,
+    height: 60,
+    borderRadius: 50,
+    padding: 20,
+    backgroundColor: 'rgba(255, 255, 255, 0.2)',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginStart: 8,
+    marginTop: '10%',
+    marginLeft: '5%',
+  },
+  videoViewContainer: {
+    position: 'absolute',
+    zIndex: 999,
+  },
+  animatedViewContainer: {
+    flex: 1,
+    height: height,
+    zIndex: 99,
   },
 });

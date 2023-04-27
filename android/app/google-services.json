@@ -1,0 +1,54 @@
+{
+  "project_info": {
+    "project_number": "176344180297",
+    "project_id": "joie-c2494",
+    "storage_bucket": "joie-c2494.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:176344180297:android:eb19b59746b1d76d048198",
+        "android_client_info": {
+          "package_name": "com.joie"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "176344180297-n3tggfq09qnk3ktrni1n92tl1bd7hrdj.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.joie",
+            "certificate_hash": "8adfbdf547ad7f60c3bfc1e5d9ecd1593709f5c9"
+          }
+        },
+        {
+          "client_id": "176344180297-r3dt1k74pguehvgq1efp3jigkuh107sj.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDbXbZ_3mDIrevSBtxUpf1Jrq8hihrj8NY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "176344180297-3kpvha6dtasqh5m9pmgba1jat0i3v9so.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "176344180297-3kopi4ebr7gl18j3qo6dd9hi2p5tu7o4.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "org.reactjs.native.example.Joie"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

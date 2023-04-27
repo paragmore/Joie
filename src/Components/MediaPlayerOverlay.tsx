@@ -3,35 +3,20 @@ import React, {useEffect, useState} from 'react';
 import {View, Text, Animated} from 'react-native';
 import {style} from './MediaPlayerOverlay.styles';
 import PlayerWidget from './PlayerWidget';
-import Strings from '../Util/Strings';
 import Colors from '../Util/Colors';
 import {Audio} from 'expo-av';
 import Emitter from '../Util/eventEmitter';
-import CommonDataManager from './CommonDataManager';
-
-const demoAudio =
-  'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3';
+import {useSelector} from 'react-redux';
 
 export const MediaPlayerOverlay = () => {
   const [Loaded, SetLoaded] = React.useState(false);
   const [Loading, SetLoading] = React.useState(false);
-  const [name, SetName] = React.useState('');
   const sound = React.useRef(new Audio.Sound());
   const [isPlaying, setIsPlaying] = React.useState<boolean>(true);
   const [duration, setDuration] = useState<number>(0);
   const [position, setPosition] = useState<number>(0);
-
-  useEffect(() => {
-    // LoadAudio({url: demoAudio});
-  }, []);
-
-  const getProgress = () => {
-    if (sound === null || duration === null || position === null) {
-      return 0;
-    }
-
-    return (position / duration) * 100;
-  };
+  const audioData = useSelector(state => state?.player?.audioData);
+  const N = 20;
 
   const onPlaybackStatusUpdate = (status: any) => {
     setIsPlaying(status.isPlaying);
@@ -59,47 +44,34 @@ export const MediaPlayerOverlay = () => {
       }
     } catch (error) {}
   };
-  useEffect(async () => {
-    var commenData: any = CommonDataManager.getInstance();
-    let audioData = commenData.getAudioPlayer();
-    console.log('audioData', audioData);
-    SetName(audioData.audio_name);
+  useEffect(() => {
+    LoadAudio();
+    Emitter.on('playAudioData', () => {
+      loadAudioFile();
+    });
+    return () => {
+      Emitter.off('playAudioData');
+      // Unload();
+    };
+  }, []);
+
+  const loadAudioFile = async () => {
     if (sound?.current) {
       try {
-        await sound?.current?.unloadAsync();
-        LoadAudio({url: audioData.audio_url});
+        if (audioData.audio_url) {
+          await sound?.current?.unloadAsync();
+          LoadAudio();
+        }
       } catch (err) {
         console.log('err>>>', err);
       }
     }
-    // Emitter.on('playAudioData', async ({data}: any) => {
-    //   var commenData = CommonDataManager.getInstance();
-    //   let audioData = commenData.getAudioPlayer();
-    //   console.log('audioData', audioData);
-    //   SetName(audioData.audio_name);
-    //   if (sound?.current) {
-    //     try {
-    //       await sound?.current?.unloadAsync();
-    //       LoadAudio({url: audioData.audio_url});
-    //     } catch (err) {
-    //       console.log('err>>>', err);
-    //     }
-    //   }
-    // });
-    // return () => {
-    //   Emitter.off('playAudioData');
-    //   // Unload();
-    // };
     Emitter.on('stop_audio', async () => {
       if (sound?.current) {
         await sound?.current?.pauseAsync();
       }
     });
-  }, []);
-
-  // const Unload = async () => {
-  //   await sound?.current?.unloadAsync();
-  // };
+  };
 
   useEffect(() => {
     if (sound.current) {
@@ -115,40 +87,36 @@ export const MediaPlayerOverlay = () => {
     }
   }, [sound.current]);
 
-  const formatTime = (millis: any) => {
-    const minutes = Math.floor(millis / 60000);
-    const seconds = ((millis % 60000) / 1000).toFixed(0);
-    return `${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
-  };
+  const LoadAudio = async () => {
+    if (audioData?.audio_url) {
+      SetLoading(true);
 
-  const LoadAudio = async ({url}) => {
-    console.log('url>>>', url);
-    SetLoading(true);
-    // await sound?.current?.unloadAsync();
-    const checkLoading = await sound.current.getStatusAsync();
-    if (checkLoading.isLoaded === false) {
-      try {
-        const result = await sound.current.loadAsync(
-          {
-            uri: url,
-          },
-          {},
-          true,
-        );
-        if (result.isLoaded === false) {
+      // await sound?.current?.unloadAsync();
+      const checkLoading = await sound.current.getStatusAsync();
+      if (checkLoading.isLoaded === false) {
+        try {
+          const result = await sound.current.loadAsync(
+            {
+              uri: audioData?.audio_url,
+            },
+            {},
+            true,
+          );
+          if (result.isLoaded === false) {
+            SetLoading(false);
+            console.log('Error in Loading Audio');
+          } else {
+            await sound.current.playAsync();
+            SetLoading(false);
+            SetLoaded(true);
+          }
+        } catch (error) {
+          console.log(error);
           SetLoading(false);
-          console.log('Error in Loading Audio');
-        } else {
-          await sound.current.playAsync();
-          SetLoading(false);
-          SetLoaded(true);
         }
-      } catch (error) {
-        console.log(error);
+      } else {
         SetLoading(false);
       }
-    } else {
-      SetLoading(false);
     }
   };
 
@@ -156,8 +124,7 @@ export const MediaPlayerOverlay = () => {
     <View style={style.container}>
       <View style={style.subContainer}>
         <View style={{width: '80%'}}>
-          <Text style={style.textStyle}>{name}</Text>
-          {/* <Text style={style.subTextStyle}>{Strings.TRAVIS_SCOTT}</Text> */}
+          <Text style={style.textStyle}>{audioData.audio_name}</Text>
         </View>
         <PlayerWidget
           Loaded={Loaded}

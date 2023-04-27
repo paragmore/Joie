@@ -9,5 +9,17 @@ const Strings = {
   LIKE_TO_DO: 'What would you like to do?',
   SKIP: 'Skip',
   BACK: 'BACK',
+  UNLOCK: 'Support Joie',
+  SEVEEN_DAY: '7 day free trial',
+  ORIGINAL_DAILY: 'An original daily Joy every day',
+  EXCLUSIVE_MUSIC: 'Exclusive music for sleep and relaxation',
+  GET_EXCLUSIVE: 'Get the exclusive offer now!',
+  CANCEL_ANYTIME: 'Cancel anytime',
+  YEARLY_SUBSCIPTIONS: 'Early Bird Offer ',
+  MONTH_SUBSCIPTIONS: 'Early Bird Offer $3.99/month',
+  UNLIMITED_ACCESS: 'Unlimited access to Music and Video Library',
+  NEW_MUSIC: 'New Music Collection Updated every week',
+  NEW_VIDEOS: 'New Videos every month',
+  MORE_FEATURES: 'More Features Coming Soon!!',
 };
 export default Strings;

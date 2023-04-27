@@ -17,8 +17,8 @@ export const QuoteText = styled.Text`
   font-style: normal;
   font-weight: 500;
   font-size: 16px;
-  /* line-height: 150.5%; */
-  /* or 24px */
+  margin-left: 10%;
+  margin-right: 10%;
 
   display: flex;
   align-items: flex-end;

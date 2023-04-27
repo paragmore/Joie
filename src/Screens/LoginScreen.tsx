@@ -12,14 +12,17 @@ export const LoginScreen = () => {
     <ScreenContainer
       isBackgroundScrollable={false}
       isScrollView={false}
+      isBackgroundImage={true}
       backgroundImageUrl={require('./../../assets/splash_background.png')}>
-      <Text style={style.titleText}>{Strings.JOIE}</Text>
-      <View style={style.container}>
-        <Text style={style.loginStyleText}>{Strings.LOGIN}</Text>
-        <View style={style.loginButtonView}>
-          <GoogleAuthentication />
-          <FacebookAuthentication />
-          <AppleAuthentication />
+      <View style={style.mainContainer}>
+        <Text style={style.titleText}>{Strings.JOIE}</Text>
+        <View style={style.container}>
+          <Text style={style.loginStyleText}>{Strings.LOGIN}</Text>
+          <View style={style.loginButtonView}>
+            <GoogleAuthentication />
+            <FacebookAuthentication />
+            <AppleAuthentication />
+          </View>
         </View>
       </View>
     </ScreenContainer>

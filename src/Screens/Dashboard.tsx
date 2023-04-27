@@ -25,8 +25,20 @@ const Dashboard: FC<Props> = ({navigation}) => {
   }, []);
   const getAllVideoData = async () => {
     var videosData: any = await getFirebaseVideoData();
-    setVideoData(videosData);
+    var heroData = videosData.filter((doc: any) => {
+      return doc.name == 'hero videos';
+    });
+
+    setVideoData(heroData);
   };
+
+  const getVideoIndex = (name: any)=>{
+    return videoData[0].data.findIndex(
+      (element: any) => element?.video_name == name,
+    );
+  }
+
+  
   return (
     <ImageBackground style={style.container} source={DASHBOARD_IMAGE}>
       <Text style={style.titleText}>{Strings.JOIE}</Text>
@@ -35,7 +47,7 @@ const Dashboard: FC<Props> = ({navigation}) => {
         <CustomButton
           onPress={() => {
             navigation.navigate(RouteName.HOME, {
-              data: videoData[0],
+              data: videoData[0].data[getVideoIndex('Hero Video Landscape')],
               isSkip: false,
             });
           }}
@@ -47,7 +59,7 @@ const Dashboard: FC<Props> = ({navigation}) => {
         <CustomButton
           onPress={() => {
             navigation.navigate(RouteName.HOME, {
-              data: videoData[1],
+              data: videoData[0].data[getVideoIndex('Hero Video Waves')],
               isSkip: false,
             });
           }}
@@ -59,7 +71,7 @@ const Dashboard: FC<Props> = ({navigation}) => {
         <CustomButton
           onPress={() => {
             navigation.navigate(RouteName.HOME, {
-              data: videoData[2],
+              data: videoData[0].data[getVideoIndex('Hero Video Rain Drops')],
               isSkip: false,
             });
           }}

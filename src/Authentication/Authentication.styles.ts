@@ -1,4 +1,6 @@
+import {Dimensions} from 'react-native';
 import styled from 'styled-components/native';
+const {width, height} = Dimensions.get('screen');
 
 export const LoginButtonContainer = styled.Pressable`
   display: flex;
@@ -8,7 +10,8 @@ export const LoginButtonContainer = styled.Pressable`
   padding: 19px 39px;
   gap: 10px;
 
-  width: ${(props: {width: any}) => (props.width ? props.width : '100%')};
+  width: ${(props: {width: any}) =>
+    props.width ? props.width : `${width * 0.8}px`};
   height: 56px;
   align-items: center;
   justify-content: center;

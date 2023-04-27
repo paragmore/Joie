@@ -8,8 +8,11 @@ export const AlbumCardsList: React.FC<{
   header?: string;
   data?: any;
   container?: any;
+  isVideo?: any;
+  setSubscription?: any;
+  userData?: any;
 }> = props => {
-  const {header, data, container} = props;
+  const {header, data, container, isVideo, setSubscription, userData} = props;
 
   const DATA = [
     {
@@ -27,22 +30,26 @@ export const AlbumCardsList: React.FC<{
   ];
   return (
     <View style={[container]}>
-      <AlbumListHeader>{header}</AlbumListHeader>
+      <AlbumListHeader>{isVideo ? data?.name : ''}</AlbumListHeader>
       <AlbumCardListContainer
         bounces={false}
-        data={data || DATA}
+        data={isVideo ? data?.data : data || DATA}
         horizontal={true}
         showsHorizontalScrollIndicator={false}
         renderItem={({item, index}: any) => (
           <AlbumCard
-            name={item?.name || item?.video_name}
+            name={isVideo ? item?.video_name : item?.name}
             time="3:10"
+            isVideo={isVideo}
             isBookMarked={false}
+            userData={userData}
+            index={index}
             imageUrl={
               item?.image_url || (index % 2 === 0 ? firstImage : secondImage)
             }
             data={item}
             key={index}
+            setSubscription={()=>setSubscription()}
           />
         )}
         keyExtractor={(item: any, index: number) => index}

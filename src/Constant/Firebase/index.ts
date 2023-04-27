@@ -7,12 +7,24 @@ export const getFirebaseVideoData = () => {
         .collection('media')
         .doc('CeeKbEBB4pPB26gyu36v')
         .collection('video')
+        .orderBy('id', 'asc')
         .get()
         .then(
           (documentSnapshot: any) => {
             const listUserData: any = [];
             documentSnapshot.docs.forEach((doc: any) => {
-              listUserData.push(doc._data);
+              let isId = listUserData.findIndex(
+                (element: any) => element.name == doc._data.name.toLowerCase(),
+              );
+              if (isId == -1) {
+                var newData = {
+                  name: doc._data.name.toLowerCase(),
+                  data: [doc._data],
+                };
+                listUserData.push(newData);
+              } else {
+                listUserData[isId].data.push(doc._data);
+              }
             });
             resolve(listUserData);
           },
@@ -38,11 +50,11 @@ export const getFirebaseAudioData = () => {
             const listUserData: any = [];
             response.docs.forEach((doc: any) => {
               let isId = listUserData.findIndex(
-                (element: any) => element.name == doc._data.name,
+                (element: any) => element.name == doc._data.name.toLowerCase(),
               );
               if (isId == -1) {
                 var newData = {
-                  name: doc._data.name,
+                  name: doc._data.name.toLowerCase(),
                   image_url: doc._data.image_url,
                   data: [doc._data],
                 };
@@ -60,5 +72,51 @@ export const getFirebaseAudioData = () => {
     } catch (error) {
       reject(error);
     }
+  });
+};
+
+export const setFirebaseUserData = ({id, userData}: any) => {
+  return new Promise((resolve, reject) => {
+    return firestore()
+      .collection('Users')
+      .doc(id)
+      .set(userData)
+      .then(response => {
+        resolve(response);
+      })
+      .catch(error => {
+        console.log('responseerror>>>', error);
+        reject(error);
+      });
+  });
+};
+export const getFirebaseUserData = ({id}: any) => {
+  console.log('id', id);
+  return new Promise((resolve, reject) => {
+    return firestore()
+      .collection('Users')
+      .doc(id)
+      .get()
+      .then((documentSnapshot: any) => {
+        resolve(documentSnapshot);
+      })
+      .catch(error => {
+        reject(error);
+      });
+  });
+};
+
+export const updateFirebaseUserData = ({id, subscriptions}: any) => {
+  return new Promise((resolve, reject) => {
+    return firestore()
+      .collection('Users')
+      .doc(id)
+      .update({subscriptions: subscriptions})
+      .then((documentSnapshot: any) => {
+        resolve(documentSnapshot?.docs);
+      })
+      .catch(error => {
+        reject(error);
+      });
   });
 };

@@ -9,4 +9,5 @@ export const AlbumListHeader = styled.Text`
   line-height: 40px;
   color: #f0f0f0;
   margin-left: 20px;
+  text-transform: capitalize;
 `;

@@ -3,7 +3,7 @@ import {FlatList, View} from 'react-native';
 import {MediaItemCard} from './MediaItemCard';
 import {firstImage, secondImage} from '../../Util';
 
-export const MediaItemsList = ({data}: any) => {
+export const MediaItemsList = ({data, getSubscription, userDetails}: any) => {
   const DATA = [
     {
       name: 'Calm',
@@ -111,8 +111,11 @@ export const MediaItemsList = ({data}: any) => {
       renderItem={({item, index}) => (
         <View>
           <MediaItemCard
+            index={index}
             data={item}
+            userDetails={userDetails}
             imageUrl={index % 2 === 0 ? firstImage : secondImage}
+            getSubscription={()=>{getSubscription()}}
           />
           {data?.length === index + 1 ? (
             <View style={{height: 200}} />

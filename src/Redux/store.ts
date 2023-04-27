@@ -1,34 +1,21 @@
-// import {combineReducers, configureStore} from '@reduxjs/toolkit';
-// import {authSlice} from './auth-api-slice';
-// import {booksSlice} from './books-api-slice';
-// import {categorySlice} from './category-api-slice';
-// import playerSlice from './player-slice';
-// import {searchSlice} from './search-api-slice';
-// import {userSlice} from './user-api-slice';
+import {combineReducers, configureStore} from '@reduxjs/toolkit';
+import playerSlice from './player-slice';
+import {TypedUseSelectorHook, useDispatch, useSelector} from 'react-redux';
 
-// const reducer = combineReducers({
-//   [authSlice.reducerPath]: authSlice.reducer,
-//   [booksSlice.reducerPath]: booksSlice.reducer,
-//   [categorySlice.reducerPath]: categorySlice.reducer,
-//   [searchSlice.reducerPath]: searchSlice.reducer,
-//   [userSlice.reducerPath]: userSlice.reducer,
-//   player: playerSlice,
-// });
+const reducer = combineReducers({
+  player: playerSlice,
+});
 
-// export const store = configureStore({
-//   reducer: reducer,
-//   middleware: getDefaultMiddleware => {
-//     return getDefaultMiddleware({
-//       serializableCheck: false,
-//     }).concat(
-//       authSlice.middleware,
-//       booksSlice.middleware,
-//       categorySlice.middleware,
-//       searchSlice.middleware,
-//       userSlice.middleware,
-//     );
-//   },
-// });
-// export type RootState = ReturnType<typeof store.getState>;
-// // Inferred type: {posts: PostsState, comments: CommentsState, users: UsersState}
-// export type AppDispatch = typeof store.dispatch;
+export const store = configureStore({
+  reducer: reducer,
+  middleware: getDefaultMiddleware => {
+    return getDefaultMiddleware({
+      serializableCheck: false,
+    }).concat();
+  },
+});
+export type RootState = ReturnType<typeof store.getState>;
+// Inferred type: {posts: PostsState, comments: CommentsState, users: UsersState}
+export type AppDispatch = typeof store.dispatch;
+export const useAppDispatch = () => useDispatch<AppDispatch>();
+export const useAppSelector: TypedUseSelectorHook<RootState> = useSelector;

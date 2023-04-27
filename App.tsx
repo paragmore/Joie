@@ -14,7 +14,7 @@ import {AlbumScreen} from './src/Screens/AlbumScreen';
 import {LoginScreen} from './src/Screens/LoginScreen';
 import {SplashScreen} from './src/Screens/SplashScreen';
 import auth from '@react-native-firebase/auth';
-import {store} from './store';
+import {store} from './src/redux/store';
 import {Provider} from 'react-redux';
 import {configureFacebook} from './src/Authentication';
 import Dashboard from './src/Screens/Dashboard';
@@ -22,6 +22,9 @@ import RouteName from './src/Util/RouteName';
 import VideoPlayer from './src/Screens/VideoPlayer';
 import Emitter from './src/Util/eventEmitter';
 import {MediaPlayerOverlay} from './src/Components/MediaPlayerOverlay';
+import PrivacyPolicy from './src/Screens/PrivacyPolicy';
+import { getFirebaseUserData, setFirebaseUserData } from './src/Constant/Firebase';
+import {withIAPContext} from 'react-native-iap';
 
 const Stack = createNativeStackNavigator();
 
@@ -37,6 +40,9 @@ function App(): JSX.Element {
     Emitter.on('stop_audio', async () => {
       setIsMediaOverlayVisible(false);
     });
+    Emitter.on('logout', () => {
+      setIsSignedIn(false);
+    });
   }, []);
 
   useEffect(() => {
@@ -48,9 +54,24 @@ function App(): JSX.Element {
     return subscriber; // unsubscribe on unmount
   }, []);
 
-  const onAuthStateChanged = (user: any) => {
-    console.log(user);
+  const onAuthStateChanged = async (user: any) => {
     if (user) {
+      const userExist = await getFirebaseUserData({
+        id: user.uid,
+      });
+      if (userExist !== true) {
+        const userStoreData = {
+          id: user?.uid,
+          email: user?.email,
+          image: user?.photoURL,
+          name: user?.displayName,
+          subscriptions: false,
+        };
+        const storeFirbaseData = await setFirebaseUserData({
+          id: user.uid,
+          userData: userStoreData,
+        });
+      }
       setIsSignedIn(true);
     }
   };
@@ -98,30 +119,7 @@ function App(): JSX.Element {
           />
           <Stack.Screen
             options={{
-              header: () => (
-                <Header
-                  leftIcon={{
-                    component: (
-                      <HeaderIconContainer
-                        onPress={async () => {
-                          await auth().signOut();
-                          setIsSignedIn(false);
-                        }}>
-                        <HamburgerIcon width={24} height={24} fill="blue" />
-                      </HeaderIconContainer>
-                    ),
-                    onPress: () => {},
-                  }}
-                  // rightIcon={{
-                  //   component: (
-                  //     <HeaderIconContainer>
-                  //       <SearchIcon width={24} height={24} fill="blue" />
-                  //     </HeaderIconContainer>
-                  //   ),
-                  //   onPress: () => {},
-                  // }}
-                />
-              ),
+              headerShown: false,
             }}
             name={RouteName.HOME}
             component={HomeScreen}
@@ -133,6 +131,14 @@ function App(): JSX.Element {
             }}
             name={RouteName.ALBUM}
             component={AlbumScreen}
+          />
+          <Stack.Screen
+            options={{
+              headerBackTitleVisible: false,
+              headerShown: false,
+            }}
+            name={RouteName.PRIVACY_POLICY}
+            component={PrivacyPolicy}
           />
         </>
       );
@@ -158,4 +164,4 @@ function App(): JSX.Element {
   );
 }
 
-export default App;
+export default withIAPContext(App);

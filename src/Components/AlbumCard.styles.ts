@@ -19,4 +19,5 @@ export const AlbumCardName = styled.Text`
   margin-left: 30px;
   margin-top: 10px;
   color: #f0f0f0;
+  text-transform: capitalize;
 `;

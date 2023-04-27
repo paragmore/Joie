@@ -3,11 +3,13 @@ import {
   statusCodes,
 } from '@react-native-google-signin/google-signin';
 import React, {useEffect, useState} from 'react';
-import {View, Text} from 'react-native';
+import {View, Text, Dimensions} from 'react-native';
 import {ImageContainer, LoginButtonContainer} from './Authentication.styles';
 import auth from '@react-native-firebase/auth';
 import {GOOGLE_ICON} from '../Assets';
 import {style} from './style';
+
+const {width, height} = Dimensions.get('screen');
 
 export const GoogleAuthentication = () => {
   const [userInfo, setUserInfo] = useState({});
@@ -22,7 +24,6 @@ export const GoogleAuthentication = () => {
   }, []);
   const signIn = async () => {
     try {
-      console.log('signiN');
       await GoogleSignin.hasPlayServices();
       const userInfo = await GoogleSignin.signIn();
       const token = await GoogleSignin.getTokens();
@@ -33,7 +34,6 @@ export const GoogleAuthentication = () => {
       );
       await auth().signInWithCredential(credential);
 
-      console.log(userInfo);
       setUserInfo({userInfo});
     } catch (error: any) {
       if (error.code === statusCodes.SIGN_IN_CANCELLED) {
@@ -58,7 +58,9 @@ export const GoogleAuthentication = () => {
   };
   return (
     <>
-      <LoginButtonContainer flexDirection={'row'} onPress={signIn}>
+      <LoginButtonContainer
+        flexDirection={'row'}
+        onPress={signIn}>
         <View style={style.container}>
           <ImageContainer
             resizeMode={'contain'}

@@ -3,9 +3,11 @@
 <plist version="1.0">
 <dict>
 	<key>CLIENT_ID</key>
-	<string>176344180297-3kopi4ebr7gl18j3qo6dd9hi2p5tu7o4.apps.googleusercontent.com</string>
+	<string>176344180297-nhh2lei8pmja71vq7t1n7n2vbeshnnhv.apps.googleusercontent.com</string>
 	<key>REVERSED_CLIENT_ID</key>
-	<string>com.googleusercontent.apps.176344180297-3kopi4ebr7gl18j3qo6dd9hi2p5tu7o4</string>
+	<string>com.googleusercontent.apps.176344180297-nhh2lei8pmja71vq7t1n7n2vbeshnnhv</string>
+	<key>ANDROID_CLIENT_ID</key>
+	<string>176344180297-n3tggfq09qnk3ktrni1n92tl1bd7hrdj.apps.googleusercontent.com</string>
 	<key>API_KEY</key>
 	<string>AIzaSyCR87iNabfE1IlNj9Lfn4p4CuiHCf2ELXk</string>
 	<key>GCM_SENDER_ID</key>
@@ -13,7 +15,7 @@
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>org.reactjs.native.example.Joie</string>
+	<string>org.joieapp</string>
 	<key>PROJECT_ID</key>
 	<string>joie-c2494</string>
 	<key>STORAGE_BUCKET</key>
@@ -29,6 +31,6 @@
 	<key>IS_SIGNIN_ENABLED</key>
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
-	<string>1:176344180297:ios:3ced02aff0882cd1048198</string>
+	<string>1:176344180297:ios:dfda3be11d9dc817048198</string>
 </dict>
 </plist>

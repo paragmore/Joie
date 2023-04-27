@@ -11,13 +11,24 @@ export const AlbumCard: React.FC<{
   time?: string;
   isBookMarked?: boolean;
   data?: any;
+  isVideo?: any;
+  index?: number;
+  setSubscription?: any;
+  userData?: any;
 }> = props => {
-  const {imageUrl, name, data} = props;
+  const {imageUrl, name, data, index, setSubscription, userData} = props;
   const {navigate} = useNavigation();
   const navigateToAlbumScreen = () => {
     if (data?.thumbnail) {
-      Emitter.emit('stop_audio');
-      navigate(RouteName?.VIDEO_PLAYER, {data: data, isSkip: true});
+      if (index === 0) {
+        playVideo();
+      } else {
+        if (userData?.subscriptions === true) {
+          playVideo();
+        } else {
+          setSubscription();
+        }
+      }
     } else {
       navigate(RouteName.ALBUM, {
         data: data,
@@ -25,6 +36,11 @@ export const AlbumCard: React.FC<{
         albumName: 'Calm',
       });
     }
+  };
+
+  const playVideo = () => {
+    Emitter.emit('stop_audio', {data: ''});
+    navigate(RouteName?.VIDEO_PLAYER, {data: data, isSkip: true});
   };
   return (
     <View style={{paddingLeft: 20}}>
