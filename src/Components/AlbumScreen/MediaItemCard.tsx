@@ -52,12 +52,11 @@ export const MediaItemCard: React.FC<{
       onPress={() => {
         playAudioMusic(data);
       }}>
-      {/* <MediaItemCardImage isPlaying={isPlaying} source={{uri: imageUrl}} /> */}
       <View style={{flex: 1}}>
         <MediaName>{data.audio_name || name}</MediaName>
         <MediaSubtitle>{subtitle || ''}</MediaSubtitle>
       </View>
-      {index != 0 && userDetails.subscriptions && (
+      {index != 0 && !userDetails.subscriptions && (
         <Image
           source={LOCK_ICON}
           style={{width: 16, height: 16}}

@@ -1,16 +1,15 @@
 import React, {FC} from 'react';
-import {View} from 'react-native';
+import {View, Text, StyleSheet} from 'react-native';
 import WebView from 'react-native-webview';
 import ButtonImage from '../Components/ButtonImage';
 import {BACK_BLACK} from '../Assets';
 import {useNavigation} from '@react-navigation/native';
 import Colors from '../Util/Colors';
 
-const PrivacyPolicy: FC = ({}) => {
+const TermsCondition: FC = () => {
   const navigation = useNavigation();
-
   return (
-    <View style={{flex: 1, flexDirection: 'column', backgroundColor: 'white'}}>
+    <View style={{flex: 1}}>
       <ButtonImage
         image={BACK_BLACK}
         onPress={() => {
@@ -21,18 +20,15 @@ const PrivacyPolicy: FC = ({}) => {
           position: 'absolute',
           zIndex: 1,
           backgroundColor: Colors.WHITE[100],
-          marginLeft: 7,
-          top: '3%',
         }}
       />
 
       <WebView
-        showsVerticalScrollIndicator={false}
-        source={{uri: 'https://thejoie.life/privacy-policy'}}
+        source={{uri: 'https://thejoie.life/terms-of-condition'}}
         style={{flex: 1}}
       />
     </View>
   );
 };
 
-export default PrivacyPolicy;
+export default TermsCondition;

@@ -127,10 +127,15 @@ export const HomeScreen: FC<Props> = ({route}) => {
   }
 
   // Pay  user Subscription
-  const payMonthly = async (sku: Sku) => {
+  const payMonthly = async ({productId, offerToken}: any) => {
     setModalVisible(false);
     try {
-      await requestSubscription({sku: sku});
+      await requestSubscription({
+        sku: productId,
+        ...(offerToken && {
+          subscriptionOffers: [{sku: productId, offerToken}],
+        }),
+      });
       const updateUserData = await updateFirebaseUserData({
         id: userDetails?.id,
         subscriptions: true,
@@ -181,7 +186,9 @@ export const HomeScreen: FC<Props> = ({route}) => {
   // Fetch firebase store user data
   const getUserData = async (user: any) => {
     const userInfoData: any = await getFirebaseUserData({id: user.uid});
+    console.log('userInfoData>>>', userInfoData._data);
     setUserData(userInfoData._data);
+    dispatch(setLoginUserData(userInfoData._data));
   };
 
   const onGestureEvent = useAnimatedGestureHandler({

@@ -8,12 +8,7 @@ export const secondImage =
 export const productSkus = Platform.select({
   ios: ['org.joieapp.oneYearsubscription', 'org.joieapp.onemonth'],
 
-  android: [
-    'android.test.purchased',
-    'android.test.canceled',
-    'android.test.refunded',
-    'android.test.item_unavailable',
-  ],
+  android: ['org.joieapp.oneyearsubscription', 'org.joieapp.onemonth'],
 
   default: [],
 }) as string[];

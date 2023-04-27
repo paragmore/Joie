@@ -6,6 +6,7 @@ import {
   Image,
   ImageBackground,
   Dimensions,
+  Platform,
 } from 'react-native';
 import React, {FC} from 'react';
 import {CROSS_ICON, LOCK_ICON, MODAL_BG} from '../Assets';
@@ -69,15 +70,30 @@ const CustomSubscriptionsModal: FC<Props> = ({
                     style.buttonContainer,
                     index == 0 ? {marginTop: height * 0.05} : {},
                   ]}
-                  text={`${Strings.YEARLY_SUBSCIPTIONS}${item?.localizedPrice}${
-                    item.subscriptionPeriodUnitIOS == 'YEAR'
-                      ? '/year'
-                      : '/month'
+                  text={`${Strings.YEARLY_SUBSCIPTIONS}${
+                    Platform.OS === 'ios'
+                      ? item?.localizedPrice
+                      : item.subscriptionOfferDetails[1]?.pricingPhases
+                          .pricingPhaseList[0]?.formattedPrice
+                  }${
+                    Platform.OS === 'ios'
+                      ? item.subscriptionPeriodUnitIOS === 'YEAR'
+                        ? '/year'
+                        : '/month'
+                      : item.name === 'Monthly Subscription'
+                      ? '/month'
+                      : '/year'
                   }`}
                   textStyle={style.buttonTextStyle}
                   onPress={() => {
                     setModalVisible(false);
-                    subScriptionButtonPress(item?.productId);
+                    subScriptionButtonPress({
+                      productId: item?.productId,
+                      offerToken:
+                        Platform.OS === 'android'
+                          ? item.subscriptionOfferDetails[0]?.offerToken
+                          : '',
+                    });
                   }}
                 />
               );

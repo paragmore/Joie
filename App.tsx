@@ -6,10 +6,6 @@ import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {HomeScreen} from './src/Screens/HomeScreen';
 import {DEFAULT_THEME} from './src/Themes/Theme';
 import {StatusBar} from 'react-native';
-import {Header} from './src/Components/Header';
-import SearchIcon from './assets/search_icon.svg';
-import HamburgerIcon from './assets/hamburger_icon.svg';
-import {HeaderIconContainer} from './src/Components/Header.styles';
 import {AlbumScreen} from './src/Screens/AlbumScreen';
 import {LoginScreen} from './src/Screens/LoginScreen';
 import {SplashScreen} from './src/Screens/SplashScreen';
@@ -22,10 +18,13 @@ import VideoPlayer from './src/Screens/VideoPlayer';
 import Emitter from './src/Util/eventEmitter';
 import {MediaPlayerOverlay} from './src/Components/MediaPlayerOverlay';
 import PrivacyPolicy from './src/Screens/PrivacyPolicy';
-import { getFirebaseUserData, setFirebaseUserData } from './src/Constant/Firebase';
+import {
+  getFirebaseUserData,
+  setFirebaseUserData,
+} from './src/Constant/Firebase';
 import {withIAPContext} from 'react-native-iap';
-import { store } from './src/Redux/store';
-
+import {store} from './src/Redux/store';
+import TermsCondition from './src/Screens/TermsCondition';
 
 const Stack = createNativeStackNavigator();
 
@@ -102,6 +101,22 @@ function App(): JSX.Element {
             name={RouteName.SIGNIN}
             component={LoginScreen}
           />
+          <Stack.Screen
+            options={{
+              headerBackTitleVisible: false,
+              headerShown: false,
+            }}
+            name={RouteName.PRIVACY_POLICY}
+            component={PrivacyPolicy}
+          />
+          <Stack.Screen
+            options={{
+              headerBackTitleVisible: false,
+              headerShown: false,
+            }}
+            name={RouteName.TERM_CONDITION}
+            component={TermsCondition}
+          />
         </>
       );
     }
@@ -140,6 +155,14 @@ function App(): JSX.Element {
             }}
             name={RouteName.PRIVACY_POLICY}
             component={PrivacyPolicy}
+          />
+          <Stack.Screen
+            options={{
+              headerBackTitleVisible: false,
+              headerShown: false,
+            }}
+            name={RouteName.TERM_CONDITION}
+            component={TermsCondition}
           />
         </>
       );

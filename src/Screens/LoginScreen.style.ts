@@ -1,10 +1,10 @@
-import {StyleSheet, Dimensions} from 'react-native';
+import {StyleSheet, Dimensions, Platform} from 'react-native';
 import Colors from '../Util/Colors';
 import {fontResize} from '../Util/font';
 const {height, width} = Dimensions.get('screen');
 const style = StyleSheet.create({
   mainContainer: {
-    height: height,
+    height: Platform.OS == 'ios' ? height : height * 0.9,
     width: width,
   },
   container: {

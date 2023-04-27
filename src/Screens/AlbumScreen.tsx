@@ -38,10 +38,15 @@ export const AlbumScreen: FC<Props> = ({navigation, route}) => {
   };
 
   // Pay  user Subscription
-  const payMonthly = async (sku: any) => {
+  const payMonthly = async ({productId, offerToken}: any) => {
     setModalVisible(false);
     try {
-      await requestSubscription({sku: sku});
+      await requestSubscription({
+        sku: productId,
+        ...(offerToken && {
+          subscriptionOffers: [{sku: productId, offerToken}],
+        }),
+      });
       const updateUserData: any = await updateFirebaseUserData({
         id: userDetails?.id,
         subscriptions: true,

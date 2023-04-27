@@ -21,5 +21,9 @@ const Strings = {
   NEW_MUSIC: 'New Music Collection Updated every week',
   NEW_VIDEOS: 'New Videos every month',
   MORE_FEATURES: 'More Features Coming Soon!!',
+  BY_CLICK_LOGIN: 'By clicking login, you agree to our ',
+  TERMS_CONDITIONS: 'Terms and Conditions',
+  AND: ' and ',
+  PRIVACY_POLICY: 'Privacy Policy',
 };
 export default Strings;
