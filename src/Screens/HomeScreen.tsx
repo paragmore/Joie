@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react-native/no-inline-styles */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 
@@ -13,13 +14,13 @@ import {
   TouchableOpacity,
   Image,
   Alert,
-  Platform,
 } from 'react-native';
 import {ScreenContainer} from '../Components/ScreenContainer';
 import {AlbumCardsList} from '../Components/AlbumCardsList';
 import {ScrollView} from 'react-native';
 import {WelcomeText} from '../Components/HomeScreen/HomeScreen.styles';
 import {
+  DeleteFirebaseUserData,
   getFirebaseAudioData,
   getFirebaseUserData,
   getFirebaseVideoData,
@@ -52,7 +53,8 @@ import {
 } from 'react-native-iap';
 import {productSkus} from '../Util';
 import {useDispatch, useSelector} from 'react-redux';
-import {setLoginUserData} from '../Redux/player_slice';
+import {setLoginUserData} from '../redux/player_slice';
+import Strings from '../Util/Strings';
 
 interface Props {
   navigation?: any;
@@ -92,18 +94,7 @@ export const HomeScreen: FC<Props> = ({route}) => {
     'abstract',
   ];
 
-  const {
-    connected,
-    products,
-    currentPurchase,
-    currentPurchaseError,
-    initConnectionError,
-    finishTransaction,
-    getProducts,
-    subscriptions,
-    getSubscriptions,
-    requestSubscription,
-  } = useIAP();
+  const {subscriptions, getSubscriptions, requestSubscription} = useIAP();
 
   useEffect(() => {
     checkVideoDetails();
@@ -149,9 +140,36 @@ export const HomeScreen: FC<Props> = ({route}) => {
   };
 
   // logout current user
-  const logout = async () => {
+  const logout = () => {
+    Alert.alert('Confirm Logout', 'Are your sure you want to logout?', [
+      {
+        text: 'Yes',
+        onPress: async () => {
+          await auth().signOut();
+          Emitter.emit('logout', {data: ''});
+        },
+      },
+      {text: 'No', onPress: () => {}},
+    ]);
+  };
+
+  const deleteAccount = () => {
+    Alert.alert(
+      'Confirm Delete Account',
+      'Are your sure you want to delete account?. if you delete account then you will lost your data',
+      [
+        {
+          text: 'Yes',
+          onPress: () => deleteAccountUser(),
+        },
+        {text: 'No', onPress: () => {}},
+      ],
+    );
+  };
+
+  const deleteAccountUser = async () => {
+    await DeleteFirebaseUserData({id: userDetails?.id});
     await auth().signOut();
-    Emitter.emit('logout');
   };
 
   // call audio and video data get function
@@ -186,7 +204,6 @@ export const HomeScreen: FC<Props> = ({route}) => {
   // Fetch firebase store user data
   const getUserData = async (user: any) => {
     const userInfoData: any = await getFirebaseUserData({id: user.uid});
-    console.log('userInfoData>>>', userInfoData._data);
     setUserData(userInfoData._data);
     dispatch(setLoginUserData(userInfoData._data));
   };
@@ -357,7 +374,13 @@ export const HomeScreen: FC<Props> = ({route}) => {
                   onPress={() => {
                     navigation.navigate(RouteName.PRIVACY_POLICY);
                   }}>
-                  <Text style={style.textStyle}>Privacy Policy</Text>
+                  <Text style={style.textStyle}>{Strings.PRIVACY_POLICY}</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  onPress={() => {
+                    deleteAccount();
+                  }}>
+                  <Text style={style.textStyle}>{Strings.DELETE_ACCOUNT}</Text>
                 </TouchableOpacity>
                 <TouchableOpacity
                   onPress={() => {
@@ -392,7 +415,7 @@ const style = StyleSheet.create({
     top: 5,
     left: 15,
     width: width / 2,
-    height: 150,
+    paddingVertical: 30,
     position: 'absolute',
     borderRadius: 10,
     padding: 20,

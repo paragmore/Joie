@@ -120,3 +120,18 @@ export const updateFirebaseUserData = ({id, subscriptions}: any) => {
       });
   });
 };
+
+export const DeleteFirebaseUserData = ({id}: any) => {
+  return new Promise((resolve, reject) => {
+    return firestore()
+      .collection('Users')
+      .doc(id)
+      .delete()
+      .then((documentSnapshot: any) => {
+        resolve(documentSnapshot);
+      })
+      .catch(error => {
+        reject(error);
+      });
+  });
+};

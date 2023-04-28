@@ -1,9 +1,10 @@
 import {useNavigation} from '@react-navigation/native';
 import React from 'react';
-import {Pressable, View} from 'react-native';
+import {Pressable, View, Image} from 'react-native';
 import {AlbumCardImage, AlbumCardName} from './AlbumCard.styles';
 import RouteName from '../Util/RouteName';
 import Emitter from '../Util/eventEmitter';
+import {LOCK_ICON} from '../Assets';
 
 export const AlbumCard: React.FC<{
   imageUrl?: string;
@@ -51,6 +52,20 @@ export const AlbumCard: React.FC<{
           resizeMode="cover"
           source={{uri: data?.thumbnail || imageUrl}}
         />
+        {data?.thumbnail && index != 0 && !userData?.subscriptions && (
+          <Image
+            resizeMode="contain"
+            source={LOCK_ICON}
+            style={{
+              position: 'absolute',
+              top: '8%',
+              right: '8%',
+              width: 30,
+              height: 30,
+            }}
+          />
+        )}
+
         <AlbumCardName>{name}</AlbumCardName>
       </Pressable>
     </View>

@@ -23,8 +23,8 @@ import {
   setFirebaseUserData,
 } from './src/Constant/Firebase';
 import {withIAPContext} from 'react-native-iap';
-import {store} from './src/Redux/store';
 import TermsCondition from './src/Screens/TermsCondition';
+import {store} from './src/redux/store';
 
 const Stack = createNativeStackNavigator();
 

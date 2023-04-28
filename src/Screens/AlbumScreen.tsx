@@ -10,7 +10,7 @@ import {useDispatch, useSelector} from 'react-redux';
 import {updateFirebaseUserData} from '../Constant/Firebase';
 import {useIAP} from 'react-native-iap';
 import {productSkus} from '../Util';
-import {setLoginUserData} from '../Redux/player_slice';
+import {setLoginUserData} from '../redux/player_slice';
 
 interface Props {
   navigation?: any;

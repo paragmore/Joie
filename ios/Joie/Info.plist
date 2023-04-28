@@ -27,7 +27,7 @@
 				<string>Editor</string>
 				<key>CFBundleURLSchemes</key>
 				<array>
-					<string>com.googleusercontent.apps.176344180297-3kopi4ebr7gl18j3qo6dd9hi2p5tu7o4</string>
+					<string>com.googleusercontent.apps.176344180297-nhh2lei8pmja71vq7t1n7n2vbeshnnhv</string>
 				</array>
 			</dict>
 			<dict>
@@ -67,6 +67,8 @@
 		</dict>
 		<key>NSLocationWhenInUseUsageDescription</key>
 		<string></string>
+		<key>NSMicrophoneUsageDescription</key>
+		<string>Need to access your microphone.</string>
 		<key>UIAppFonts</key>
 		<array>
 			<string>Inter-Black.ttf</string>
@@ -119,8 +121,6 @@
 		<array>
 			<string>UIInterfaceOrientationPortrait</string>
 		</array>
-		<key>NSMicrophoneUsageDescription</key>
-		<string>Need to access your microphone.</string>
 		<key>UISupportedInterfaceOrientations~ipad</key>
 		<array>
 			<string>UIInterfaceOrientationLandscapeLeft</string>

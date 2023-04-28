@@ -25,5 +25,6 @@ const Strings = {
   TERMS_CONDITIONS: 'Terms and Conditions',
   AND: ' and ',
   PRIVACY_POLICY: 'Privacy Policy',
+  DELETE_ACCOUNT: 'Delete Account',
 };
 export default Strings;
