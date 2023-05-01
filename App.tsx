@@ -1,9 +1,11 @@
 /* eslint-disable react/no-unstable-nested-components */
+
+import 'react-native-gesture-handler';
 import React, {useEffect, useState} from 'react';
 import {ThemeProvider} from 'styled-components/native';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import {HomeScreen} from './src/Screens/HomeScreen';
+import HomeScreen from './src/Screens/HomeScreen';
 import {DEFAULT_THEME} from './src/Themes/Theme';
 import {StatusBar} from 'react-native';
 import {AlbumScreen} from './src/Screens/AlbumScreen';

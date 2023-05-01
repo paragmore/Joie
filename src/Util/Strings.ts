@@ -22,7 +22,7 @@ const Strings = {
   NEW_VIDEOS: 'New Videos every month',
   MORE_FEATURES: 'More Features Coming Soon!!',
   BY_CLICK_LOGIN: 'By clicking login, you agree to our ',
-  TERMS_CONDITIONS: 'Terms and Conditions',
+  TERMS_CONDITIONS: 'Terms of Use',
   AND: ' and ',
   PRIVACY_POLICY: 'Privacy Policy',
   DELETE_ACCOUNT: 'Delete Account',

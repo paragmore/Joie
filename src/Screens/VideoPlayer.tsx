@@ -10,6 +10,7 @@ import {
   Modal,
   ImageBackground,
   Dimensions,
+  Platform,
 } from 'react-native';
 import {Video, ResizeMode} from 'expo-av';
 import {useState, useRef} from 'react';
@@ -24,6 +25,7 @@ import {
 import Colors from '../Util/Colors';
 import Strings from '../Util/Strings';
 import RouteName from '../Util/RouteName';
+// import Video from 'react-native-video';
 
 const {width, height} = Dimensions.get('screen');
 
@@ -46,7 +48,10 @@ const VideoPlayer: FC<Props> = ({navigation, route}) => {
 
   return (
     <ImageBackground
-      style={{width: width, height: height}}
+      style={{
+        width: width,
+        height: Platform.OS === 'ios' ? height : height * 0.9,
+      }}
       source={{uri: thumbnail}}>
       <Video
         ref={video}
@@ -54,6 +59,7 @@ const VideoPlayer: FC<Props> = ({navigation, route}) => {
         source={{
           uri: video_url,
         }}
+        shouldPlay
         useNativeControls={false}
         resizeMode={ResizeMode.STRETCH}
         isLooping

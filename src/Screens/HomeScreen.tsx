@@ -14,6 +14,7 @@ import {
   TouchableOpacity,
   Image,
   Alert,
+  Platform,
 } from 'react-native';
 import {ScreenContainer} from '../Components/ScreenContainer';
 import {AlbumCardsList} from '../Components/AlbumCardsList';
@@ -28,7 +29,11 @@ import {
 } from '../Constant/Firebase';
 import {Video, ResizeMode} from 'expo-av';
 import ButtonImage from '../Components/ButtonImage';
-import {PanGestureHandler} from 'react-native-gesture-handler';
+import {
+  PanGestureHandler,
+  GestureHandlerRootView,
+  gestureHandlerRootHOC,
+} from 'react-native-gesture-handler';
 import Animated, {
   useAnimatedGestureHandler,
   useAnimatedStyle,
@@ -64,7 +69,7 @@ interface Props {
 const SWIPE_THRESHOLD = 100;
 
 const {width, height} = Dimensions.get('window');
-export const HomeScreen: FC<Props> = ({route}) => {
+const HomeScreen: FC<Props> = ({route}) => {
   const thumbnail =
     route?.params?.data?.thumbnail ||
     'https://firebasestorage.googleapis.com/v0/b/joie-c2494.appspot.com/o/video%2Fthumbnail%2Fwave5.png?alt=media&token=bdf78575-8a2f-4f2d-9570-1b2b47e6da8e';
@@ -170,6 +175,7 @@ export const HomeScreen: FC<Props> = ({route}) => {
   const deleteAccountUser = async () => {
     await DeleteFirebaseUserData({id: userDetails?.id});
     await auth().signOut();
+    Emitter.emit('logout', {data: ''});
   };
 
   // call audio and video data get function
@@ -251,7 +257,13 @@ export const HomeScreen: FC<Props> = ({route}) => {
         <View style={style.videoViewContainer}>
           <PanGestureHandler onGestureEvent={onGestureEvent}>
             <Animated.View style={[{flex: 1}, animatedStyle]}>
-              <View style={{height: viewHeight}}>
+              <View
+                style={{
+                  height:
+                    Platform.OS === 'ios'
+                      ? viewHeight
+                      : viewHeight - height * 0.3,
+                }}>
                 <ImageBackground
                   style={{width: width, height: viewHeight}}
                   source={{uri: thumbnail}}>
@@ -261,6 +273,7 @@ export const HomeScreen: FC<Props> = ({route}) => {
                     source={{
                       uri: video_url,
                     }}
+                    shouldPlay
                     useNativeControls={false}
                     resizeMode={ResizeMode.STRETCH}
                     isLooping
@@ -496,3 +509,5 @@ const style = StyleSheet.create({
     zIndex: 99,
   },
 });
+
+export default gestureHandlerRootHOC(HomeScreen);

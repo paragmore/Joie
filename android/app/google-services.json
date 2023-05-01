@@ -7,18 +7,18 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:176344180297:android:eb19b59746b1d76d048198",
+        "mobilesdk_app_id": "1:176344180297:android:b193c786a4a1460d048198",
         "android_client_info": {
           "package_name": "com.joie"
         }
       },
       "oauth_client": [
         {
-          "client_id": "176344180297-n3tggfq09qnk3ktrni1n92tl1bd7hrdj.apps.googleusercontent.com",
+          "client_id": "176344180297-3k39kpv98ktloqmfqcl1940f4bldkb15.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.joie",
-            "certificate_hash": "8adfbdf547ad7f60c3bfc1e5d9ecd1593709f5c9"
+            "certificate_hash": "5e8f16062ea3cd2c4a0d547876baa6f38cabf625"
           }
         },
         {
@@ -28,7 +28,7 @@
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyDbXbZ_3mDIrevSBtxUpf1Jrq8hihrj8NY"
+          "current_key": "AIzaSyBg_v90zbpWpX5Wfnk0BsQHh2xJ4BVyRpI"
         }
       ],
       "services": {

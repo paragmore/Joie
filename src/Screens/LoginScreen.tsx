@@ -1,3 +1,4 @@
+/* eslint-disable react-native/no-inline-styles */
 import React from 'react';
 import {View, Text, Platform} from 'react-native';
 import {GoogleAuthentication} from '../Authentication/GoogleAuthentication';
@@ -31,11 +32,12 @@ export const LoginScreen = () => {
             <Text
               style={{
                 color: Colors.WHITE[100],
-                fontSize: fontResize(14),
+                fontSize: fontResize(16),
                 textAlign: 'left',
                 fontFamily: 'PlayfairDisplay-Medium',
                 lineHeight: 25,
                 marginTop: 10,
+                letterSpacing: 1,
               }}>
               {Strings.BY_CLICK_LOGIN}
               <Text

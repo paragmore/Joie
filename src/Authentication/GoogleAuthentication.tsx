@@ -18,12 +18,14 @@ export const GoogleAuthentication = () => {
     GoogleSignin.configure({
       scopes: ['email'], // what API you want to access on behalf of the user, default is email and profile
       webClientId:
-        '176344180297-3kopi4ebr7gl18j3qo6dd9hi2p5tu7o4.apps.googleusercontent.com', // client ID of type WEB for your server (needed to verify user ID and offline access)
-      offlineAccess: true, // if you want to access Google API on behalf of the user FROM YOUR SERVER
+        '176344180297-3kpvha6dtasqh5m9pmgba1jat0i3v9so.apps.googleusercontent.com', // client ID of type WEB for your server (needed to verify user ID and offline access)
+      offlineAccess: true,
+      forceCodeForRefreshToken: true,
     });
   }, []);
   const signIn = async () => {
     try {
+      await GoogleSignin.signOut();
       await GoogleSignin.hasPlayServices();
       const userInfo = await GoogleSignin.signIn();
       const token = await GoogleSignin.getTokens();
@@ -37,12 +39,16 @@ export const GoogleAuthentication = () => {
       setUserInfo({userInfo});
     } catch (error: any) {
       if (error.code === statusCodes.SIGN_IN_CANCELLED) {
+        console.log('error', error);
         // user cancelled the login flow
       } else if (error.code === statusCodes.IN_PROGRESS) {
+        console.log('error', error);
         // operation (e.g. sign in) is in progress already
       } else if (error.code === statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
+        console.log('error', error);
         // play services not available or outdated
       } else {
+        console.log('error', error);
         // some other error happened
       }
     }
@@ -58,9 +64,7 @@ export const GoogleAuthentication = () => {
   };
   return (
     <>
-      <LoginButtonContainer
-        flexDirection={'row'}
-        onPress={signIn}>
+      <LoginButtonContainer flexDirection={'row'} onPress={signIn}>
         <View style={style.container}>
           <ImageContainer
             resizeMode={'contain'}

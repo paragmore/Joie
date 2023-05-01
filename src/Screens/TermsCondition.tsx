@@ -24,7 +24,7 @@ const TermsCondition: FC = () => {
       />
 
       <WebView
-        source={{uri: 'https://thejoie.life/terms-of-condition'}}
+        source={{uri: 'https://thejoie.life/terms-of-use'}}
         style={{flex: 1}}
       />
     </View>
