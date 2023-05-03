@@ -126,19 +126,33 @@ const HomeScreen: FC<Props> = ({route}) => {
   const payMonthly = async ({productId, offerToken}: any) => {
     setModalVisible(false);
     try {
+      // await requestSubscription({
+      //   sku: productId,
+      //   ...(offerToken && {
+      //     subscriptionOffers: [{sku: productId, offerToken}],
+      //   }),
+      // });
       await requestSubscription({
         sku: productId,
         ...(offerToken && {
           subscriptionOffers: [{sku: productId, offerToken}],
         }),
-      });
-      const updateUserData = await updateFirebaseUserData({
-        id: userDetails?.id,
-        subscriptions: true,
-      });
-      var user = userDetails;
-      user.subscriptions = true;
-      dispatch(setLoginUserData(user));
+      })
+        .then(async (result: any) => {
+          console.log(result);
+          const updateUserData = await updateFirebaseUserData({
+            id: userDetails?.id,
+            subscriptions: true,
+          });
+          var user = userDetails;
+          user.subscriptions = true;
+          dispatch(setLoginUserData(user));
+        })
+        .catch((err: any) => {
+          console.log('err', err);
+        });
+      // console.log("getSubscription", getSubscription)
+      //
     } catch (error) {
       console.log('error>>>', error);
     }
@@ -319,7 +333,7 @@ const HomeScreen: FC<Props> = ({route}) => {
                     />
                   </View>
 
-                  <Modal
+                  {/* <Modal
                     animated={true}
                     animationType={'fade'}
                     transparent={true}
@@ -332,7 +346,7 @@ const HomeScreen: FC<Props> = ({route}) => {
                       }}>
                       <ActivityIndicator size="large" color={'red'} />
                     </View>
-                  </Modal>
+                  </Modal> */}
                 </ImageBackground>
               </View>
               <View style={{backgroundColor: 'gray', flex: 1}} />
@@ -378,6 +392,8 @@ const HomeScreen: FC<Props> = ({route}) => {
                 header="Recommended collections"
               />
             ))}
+
+            {console.log('ssubscriptions', subscriptions)}
 
             <View style={{height: 150}} />
 

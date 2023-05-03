@@ -52,7 +52,7 @@ function App(): JSX.Element {
     configureFacebook();
     setTimeout(() => {
       setIsLoading(false);
-    }, 3000);
+    }, 5000);
     return subscriber; // unsubscribe on unmount
   }, []);
 

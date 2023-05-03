@@ -7,7 +7,7 @@ export const LoginButtonContainer = styled.Pressable`
   flex-direction: ${(props: {flexDirection: any}) =>
     props.flexDirection ? props.flexDirection : 'column'};
   align-items: flex-start;
-  padding: 19px 39px;
+  /* padding: 19px 39px; */
   gap: 10px;
 
   width: ${(props: {width: any}) =>

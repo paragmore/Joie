@@ -62,6 +62,7 @@ const CustomSubscriptionsModal: FC<Props> = ({
               <View style={style.roundView} />
               <Text style={style.accessText}>{Strings.MORE_FEATURES}</Text>
             </View>
+            {console.log('subscriptions>>', JSON.stringify(subscriptions))}
 
             {subscriptions.map((item: any, index: any) => {
               return (
@@ -73,8 +74,8 @@ const CustomSubscriptionsModal: FC<Props> = ({
                   text={`${Strings.YEARLY_SUBSCIPTIONS}${
                     Platform.OS === 'ios'
                       ? item?.localizedPrice
-                      : item.subscriptionOfferDetails[1]?.pricingPhases
-                          .pricingPhaseList[0]?.formattedPrice
+                      : item.subscriptionOfferDetails[0]?.pricingPhases
+                          ?.pricingPhaseList[0]?.formattedPrice
                   }${
                     Platform.OS === 'ios'
                       ? item.subscriptionPeriodUnitIOS === 'YEAR'

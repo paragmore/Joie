@@ -6,7 +6,7 @@ export const secondImage =
   'https://images.pexels.com/photos/1655166/pexels-photo-1655166.jpeg?auto=compress&cs=tinysrgb&w=800';
 
 export const productSkus = Platform.select({
-  ios: ['org.joieapp.oneYearsubscription', 'org.joieapp.onemonth'],
+  ios: ['org.joieapp.yearssubscription', 'org.joieapp.onesubscription'],
 
   android: ['org.joieapp.oneyearsubscription', 'org.joieapp.onemonth'],
 

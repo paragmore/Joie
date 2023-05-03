@@ -70,6 +70,7 @@ export const GoogleAuthentication = () => {
             resizeMode={'contain'}
             width={'18px'}
             height={'18px'}
+            marginRight={20}
             source={GOOGLE_ICON}
           />
           <Text style={style.textStyle}>Google</Text>

@@ -42,6 +42,7 @@ export const AppleAuthentication = () => {
             width={'18px'}
             height={'18px'}
             resizeMode={'contain'}
+            marginRight={20}
             source={APPLE_ICON}
           />
           <Text style={style.textStyle}>Apple</Text>

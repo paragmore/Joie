@@ -66,6 +66,7 @@ export const FacebookAuthentication = () => {
             resizeMode={'contain'}
             width={'18px'}
             height={'18px'}
+            marginRight={20}
             source={FACEBOOK_ICON}
           />
           <Text style={style.textStyle}>Facebook</Text>
